@@ -1,0 +1,155 @@
+﻿@{
+    ViewBag.Title = "Análisis Numérico";
+}
+
+<style>
+    .inicio-analisis {
+        max-width: 900px;
+        margin: 40px auto;
+        text-align: center;
+        font-family: Arial, sans-serif;
+    }
+
+        .inicio-analisis h1 {
+            margin-bottom: 5px;
+            font-size: 38px;
+            color: #253238;
+        }
+
+    .subtitulo {
+        margin-bottom: 35px;
+        color: #6c757d;
+        font-size: 17px;
+    }
+
+    .contenedor-unidades {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 25px;
+    }
+
+    .tarjeta-unidad {
+        min-height: 240px;
+        padding: 25px;
+        border: 1px solid #b7b7b7;
+        border-radius: 8px;
+        background-color: white;
+        color: #253238;
+        text-decoration: none;
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+        .tarjeta-unidad:hover {
+            transform: translateY(-4px);
+            color: #253238;
+            text-decoration: none;
+            box-shadow: 0 7px 14px rgba(0, 0, 0, 0.20);
+        }
+
+    .unidad-icono {
+        display: flex;
+        width: 110px;
+        height: 80px;
+        margin: 0 auto 20px;
+        align-items: center;
+        justify-content: center;
+        border-bottom: 2px solid #444;
+        color: #2c5f7c;
+        font-size: 30px;
+        font-weight: bold;
+    }
+
+    .tarjeta-unidad h2 {
+        margin-bottom: 8px;
+        font-size: 24px;
+    }
+
+    .nombre-unidad {
+        margin-bottom: 12px;
+        font-size: 17px;
+    }
+
+    .descripcion-unidad {
+        color: #777;
+        font-size: 14px;
+    }
+
+    @@media (max-width: 768px) {
+        .contenedor-unidades {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<main class="inicio-analisis">
+
+    <h1>Análisis Numérico</h1>
+    <p class="subtitulo">Menú principal</p>
+
+    <div class="contenedor-unidades">
+
+        <a href="@Url.Action("Index", "Unidad1")"
+           class="tarjeta-unidad">
+
+            <div class="unidad-icono">f(x)</div>
+
+            <h2>Unidad 1</h2>
+
+            <p class="nombre-unidad">
+                Raíces de funciones
+            </p>
+
+            <p class="descripcion-unidad">
+                Acceder a contenidos y ejercicios
+            </p>
+        </a>
+
+        <a href="#" class="tarjeta-unidad">
+
+            <div class="unidad-icono">Ax = b</div>
+
+            <h2>Unidad 2</h2>
+
+            <p class="nombre-unidad">
+                Sistemas de ecuaciones
+            </p>
+
+            <p class="descripcion-unidad">
+                Acceder a contenidos y ejercicios
+            </p>
+        </a>
+
+        <a href="#" class="tarjeta-unidad">
+
+            <div class="unidad-icono">x, y</div>
+
+            <h2>Unidad 3</h2>
+
+            <p class="nombre-unidad">
+                Ajuste de curvas
+            </p>
+
+            <p class="descripcion-unidad">
+                Acceder a contenidos y ejercicios
+            </p>
+        </a>
+
+        <a href="#" class="tarjeta-unidad">
+
+            <div class="unidad-icono">&int; f(x)</div>
+
+            <h2>Unidad 4</h2>
+
+            <p class="nombre-unidad">
+                Integración numérica
+            </p>
+
+            <p class="descripcion-unidad">
+                Acceder a contenidos y ejercicios
+            </p>
+        </a>
+
+    </div>
+
+</main>
