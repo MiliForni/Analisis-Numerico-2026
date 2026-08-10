@@ -1,4 +1,6 @@
-﻿@{
+﻿@model AnalisisNumerico2026.Models.Unidad1ViewModel
+
+@{
     ViewBag.Title = "Unidad 1 - Raíces de funciones";
 }
 
@@ -71,14 +73,13 @@
             font-weight: 600;
         }
 
-        .grupo-campo input,
-        .grupo-campo select {
-            width: 100%;
-            padding: 9px;
-            border: 1px solid #aaa;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
+    .campo {
+        width: 100%;
+        padding: 9px;
+        border: 1px solid #aaa;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
 
     .intervalo {
         display: grid;
@@ -118,6 +119,7 @@
         background-size: 25px 25px;
         color: #777;
         text-align: center;
+        box-sizing: border-box;
     }
 
     .fila-resultado {
@@ -138,6 +140,23 @@
         border-radius: 5px;
         background-color: #f4f4f4;
         box-sizing: border-box;
+        word-break: break-word;
+    }
+
+    .mensaje-error {
+        margin-bottom: 20px;
+        padding: 12px;
+        border: 1px solid #dc3545;
+        border-radius: 6px;
+        background-color: #f8d7da;
+        color: #842029;
+    }
+
+    .text-danger {
+        display: block;
+        margin-top: 4px;
+        color: #dc3545;
+        font-size: 13px;
     }
 
     @@media (max-width: 1000px) {
@@ -159,220 +178,347 @@
     </a>
 
     <header class="encabezado-unidad">
-
         <h1>Análisis Numérico</h1>
-
-        <p>
-            Unidad 1 - Raíces de funciones
-        </p>
-
+        <p>Unidad 1 - Raíces de funciones</p>
     </header>
+
+    @if (!string.IsNullOrWhiteSpace(Model.MensajeError))
+    {
+        <div class="mensaje-error">
+            @Model.MensajeError
+        </div>
+    }
 
     <div class="contenedor-paneles">
 
+        <!-- INGRESO DE DATOS -->
         <section class="panel">
 
             <h2>Ingreso de datos</h2>
 
-            <div class="grupo-campo">
+            @using (Html.BeginForm(
+                "Index",
+                "Unidad1",
+                FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
 
-                <label for="funcion">
-                    Función
-                </label>
+                <div class="grupo-campo">
 
-                <input type="text"
-                       id="funcion"
-                       name="funcion"
-                       placeholder="Ejemplo: x^2 - 2" />
+                    @Html.LabelFor(m => m.Funcion)
 
-            </div>
+                    @Html.TextBoxFor(
+                        m => m.Funcion,
+                        new
+                        {
+                            @class = "campo",
+                            placeholder = "Ejemplo: x^2 - 2"
+                        })
 
-            <div class="grupo-campo">
+                    @Html.ValidationMessageFor(
+                        m => m.Funcion,
+                        "",
+                        new { @class = "text-danger" })
 
-                <label for="metodo">
-                    Método
-                </label>
+                </div>
 
-                <select id="metodo" name="metodo">
+                <div class="grupo-campo">
 
-                    <option value="">
-                        Seleccione un método
-                    </option>
+                    @Html.LabelFor(m => m.Metodo)
 
-                    <option value="Biseccion">
-                        Bisección
-                    </option>
+                    @Html.DropDownListFor(
+                        m => m.Metodo,
+                        new List<SelectListItem>
+                        {
+                            new SelectListItem
+                            {
+                                Text = "Seleccione un método",
+                                Value = ""
+                            },
+                            new SelectListItem
+                            {
+                                Text = "Bisección",
+                                Value = "Biseccion"
+                            },
+                            new SelectListItem
+                            {
+                                Text = "Regla falsa",
+                                Value = "ReglaFalsa"
+                            }
+                        },
+                        new { @class = "campo" })
 
-                    <option value="ReglaFalsa">
-                        Regla falsa
-                    </option>
+                    @Html.ValidationMessageFor(
+                        m => m.Metodo,
+                        "",
+                        new { @class = "text-danger" })
 
-                </select>
+                </div>
 
-            </div>
+                <div class="grupo-campo">
 
-            <div class="grupo-campo">
+                    @Html.LabelFor(m => m.Iteraciones)
 
-                <label for="iteraciones">
-                    Iteraciones
-                </label>
+                    @Html.TextBoxFor(
+                        m => m.Iteraciones,
+                        new
+                        {
+                            @class = "campo",
+                            type = "number",
+                            min = "1",
+                            placeholder = "Ejemplo: 100"
+                        })
 
-                <input type="number"
-                       id="iteraciones"
-                       name="iteraciones"
-                       min="1"
-                       placeholder="Ejemplo: 100" />
+                    @Html.ValidationMessageFor(
+                        m => m.Iteraciones,
+                        "",
+                        new { @class = "text-danger" })
 
-            </div>
+                </div>
 
-            <div class="grupo-campo">
+                <div class="grupo-campo">
 
-                <label for="tolerancia">
-                    Tolerancia
-                </label>
+                    @Html.LabelFor(m => m.Tolerancia)
 
-                <input type="text"
-                       id="tolerancia"
-                       name="tolerancia"
-                       placeholder="Ejemplo: 0.0001" />
+                    @Html.TextBoxFor(
+                        m => m.Tolerancia,
+                        new
+                        {
+                            @class = "campo",
+                            placeholder = "Ejemplo: 0.0001"
+                        })
 
-            </div>
+                    @Html.ValidationMessageFor(
+                        m => m.Tolerancia,
+                        "",
+                        new { @class = "text-danger" })
 
-            <div class="grupo-campo">
+                </div>
 
-                <label>Intervalo</label>
+                <div class="grupo-campo">
 
-                <div class="intervalo">
+                    <label>Intervalo</label>
 
-                    <div>
+                    <div class="intervalo">
 
-                        <label for="xi">
-                            Xi
-                        </label>
+                        <div>
 
-                        <input type="text"
-                               id="xi"
-                               name="xi"
-                               placeholder="1" />
+                            @Html.LabelFor(m => m.Xi)
 
-                    </div>
+                            @Html.TextBoxFor(
+                                m => m.Xi,
+                                new
+                                {
+                                    @class = "campo",
+                                    placeholder = "1"
+                                })
 
-                    <div>
+                            @Html.ValidationMessageFor(
+                                m => m.Xi,
+                                "",
+                                new { @class = "text-danger" })
 
-                        <label for="xd">
-                            Xd
-                        </label>
+                        </div>
 
-                        <input type="text"
-                               id="xd"
-                               name="xd"
-                               placeholder="2" />
+                        <div>
+
+                            @Html.LabelFor(m => m.Xd)
+
+                            @Html.TextBoxFor(
+                                m => m.Xd,
+                                new
+                                {
+                                    @class = "campo",
+                                    placeholder = "2"
+                                })
+
+                            @Html.ValidationMessageFor(
+                                m => m.Xd,
+                                "",
+                                new { @class = "text-danger" })
+
+                        </div>
 
                     </div>
 
                 </div>
 
-            </div>
-
-            <button type="button"
-                    class="boton-calcular">
-                Calcular
-            </button>
+                <button type="submit"
+                        class="boton-calcular">
+                    Calcular
+                </button>
+            }
 
         </section>
 
+
+        <!-- GRÁFICO -->
         <section class="panel panel-grafico">
 
             <h2>Gráfico</h2>
 
-            <div class="grafico-vacio">
-                Aquí se mostrará el gráfico de la función utilizando GeoGebra.
-            </div>
+            <div id="ggb-element"></div>
 
         </section>
 
+
+        <!-- RESULTADOS -->
         <section class="panel">
 
             <h2>Resultados</h2>
 
             <div class="fila-resultado">
-
                 <label>Función utilizada</label>
 
                 <div class="valor-resultado">
-                    —
+                    @if (!string.IsNullOrWhiteSpace(Model.Funcion))
+                    {
+                        @Model.Funcion
+                    }
+                    else
+                    {
+                        <text>—</text>
+                    }
                 </div>
-
             </div>
 
-            <div class="fila-resultado">
 
+            <div class="fila-resultado">
                 <label>Método utilizado</label>
 
                 <div class="valor-resultado">
-                    —
-                </div>
 
+                    @if (Model.Metodo == "Biseccion")
+                    {
+                        <text>Bisección</text>
+                    }
+                    else if (Model.Metodo == "ReglaFalsa")
+                    {
+                        <text>Regla falsa</text>
+                    }
+                    else
+                    {
+                        <text>—</text>
+                    }
+
+                </div>
             </div>
 
-            <div class="fila-resultado">
 
+            <div class="fila-resultado">
                 <label>Iteraciones realizadas</label>
 
                 <div class="valor-resultado">
-                    —
-                </div>
 
+                    @if (Model.IteracionesRealizadas.HasValue)
+                    {
+                        @Model.IteracionesRealizadas.Value
+                    }
+                    else
+                    {
+                        <text>—</text>
+                    }
+
+                </div>
             </div>
 
-            <div class="fila-resultado">
 
+            <div class="fila-resultado">
                 <label>Tolerancia utilizada</label>
 
                 <div class="valor-resultado">
-                    —
-                </div>
 
+                    @if (Model.Tolerancia.HasValue)
+                    {
+                        @Model.Tolerancia.Value
+                    }
+                    else
+                    {
+                        <text>—</text>
+                    }
+
+                </div>
             </div>
 
-            <div class="fila-resultado">
 
+            <div class="fila-resultado">
                 <label>Intervalo utilizado</label>
 
                 <div class="valor-resultado">
-                    —
-                </div>
 
+                    @if (Model.Xi.HasValue && Model.Xd.HasValue)
+                    {
+                        <text>
+                            [@Model.Xi.Value, @Model.Xd.Value]
+                        </text>
+                    }
+                    else
+                    {
+                        <text>—</text>
+                    }
+
+                </div>
             </div>
 
-            <div class="fila-resultado">
 
+            <div class="fila-resultado">
                 <label>¿Converge?</label>
 
                 <div class="valor-resultado">
-                    —
-                </div>
 
+                    @if (Model.Converge.HasValue)
+                    {
+                        if (Model.Converge.Value)
+                        {
+                            <text>Sí</text>
+                        }
+                        else
+                        {
+                            <text>No</text>
+                        }
+                    }
+                    else
+                    {
+                        <text>—</text>
+                    }
+
+                </div>
             </div>
 
-            <div class="fila-resultado">
 
+            <div class="fila-resultado">
                 <label>Raíz</label>
 
                 <div class="valor-resultado">
-                    —
-                </div>
 
+                    @if (Model.Raiz.HasValue)
+                    {
+                        @Model.Raiz.Value
+                    }
+                    else
+                    {
+                        <text>—</text>
+                    }
+
+                </div>
             </div>
 
-            <div class="fila-resultado">
 
+            <div class="fila-resultado">
                 <label>Error</label>
 
                 <div class="valor-resultado">
-                    —
-                </div>
 
+                    @if (Model.Error.HasValue)
+                    {
+                        @Model.Error.Value
+                    }
+                    else
+                    {
+                        <text>—</text>
+                    }
+
+                </div>
             </div>
 
         </section>
@@ -380,3 +526,36 @@
     </div>
 
 </main>
+<script src="https://www.geogebra.org/apps/deployggb.js"></script>
+
+<script>
+    var parametros = {
+        "appName": "graphing",
+        "width": 600,
+        "height": 440,
+        "showToolBar": false,
+        "showAlgebraInput": false,
+        "showMenuBar": false,
+        "appletOnLoad": function (api) {
+
+            var funcion = '@Html.Raw(HttpUtility.JavaScriptStringEncode(Model.Funcion ?? ""))';
+
+var funcionValida =
+    @((ViewBag.FuncionValida ?? false).ToString().ToLower());
+
+if (funcionValida && funcion !== "") {
+    api.evalCommand("f(x)=" + funcion);
+}
+        }
+    };
+
+    var applet = new GGBApplet(parametros, true);
+
+    window.addEventListener("load", function () {
+        applet.inject("ggb-element");
+    });
+</script>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
