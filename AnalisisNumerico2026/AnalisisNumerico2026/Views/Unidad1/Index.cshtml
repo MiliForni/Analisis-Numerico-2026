@@ -5,149 +5,124 @@
 }
 
 <style>
+    body {
+        background-color: #2B2C33;
+    }
+
     .pagina-unidad {
-        max-width: 1250px;
-        margin: 25px auto;
+        max-width: 1350px;
+        margin: 30px auto;
+        padding: 0 20px;
         font-family: Arial, sans-serif;
     }
 
+    .volver {
+        display: inline-block;
+        margin-bottom: 18px;
+        color: #B2D5E5;
+        text-decoration: none;
+        font-size: 15px;
+    }
+
+        .volver:hover {
+            color: white;
+            text-decoration: none;
+        }
+
     .encabezado-unidad {
-        margin-bottom: 25px;
+        margin-bottom: 30px;
         text-align: center;
     }
 
         .encabezado-unidad h1 {
-            margin-bottom: 5px;
-            color: #253238;
-            font-size: 34px;
+            margin-bottom: 7px;
+            color: #B2D5E5;
+            font-size: 36px;
         }
 
         .encabezado-unidad p {
-            color: #666;
+            color: #B2D5E5;
             font-size: 17px;
-        }
-
-    .volver {
-        display: inline-block;
-        margin-bottom: 15px;
-        color: #2c5f7c;
-        font-size: 16px;
-        text-decoration: none;
-    }
-
-        .volver:hover {
-            text-decoration: underline;
         }
 
     .contenedor-paneles {
         display: grid;
-        grid-template-columns: 280px 1fr 280px;
-        gap: 20px;
+        grid-template-columns: 310px 1fr 300px;
+        gap: 22px;
         align-items: stretch;
     }
 
     .panel {
-        padding: 22px;
-        border: 1px solid #b5b5b5;
-        border-radius: 10px;
-        background-color: white;
-        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+        padding: 25px;
+        border-radius: 14px;
+        background-color: #B2D5E5;
+        box-shadow: 0 7px 18px rgba(0, 0, 0, 0.25);
     }
 
         .panel h2 {
             margin-top: 0;
-            margin-bottom: 22px;
-            color: #253238;
-            font-size: 23px;
+            margin-bottom: 25px;
+            color: #020202;
             text-align: center;
+            font-size: 23px;
         }
 
     .grupo-campo {
-        margin-bottom: 15px;
+        margin-bottom: 16px;
     }
 
         .grupo-campo label {
             display: block;
             margin-bottom: 6px;
-            color: #444;
-            font-weight: 600;
+            color: #020202;
+            font-weight: bold;
         }
 
     .campo {
         width: 100%;
-        padding: 9px;
-        border: 1px solid #aaa;
-        border-radius: 5px;
+        padding: 10px;
+        border: 1px solid #777;
+        border-radius: 6px;
+        background-color: white;
+        color: #020202;
         box-sizing: border-box;
     }
 
-    .intervalo {
+    .dos-columnas {
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 12px;
     }
 
+    .subtitulo-campo {
+        margin-top: 20px;
+        margin-bottom: 12px;
+        color: #2B2C33;
+        font-size: 15px;
+        font-weight: bold;
+    }
+
     .boton-calcular {
         width: 100%;
-        margin-top: 10px;
-        padding: 11px;
+        margin-top: 8px;
+        padding: 12px;
         border: none;
-        border-radius: 6px;
-        background-color: #2c5f7c;
+        border-radius: 7px;
+        background-color: #2B2C33;
         color: white;
-        font-size: 17px;
+        font-size: 16px;
         cursor: pointer;
     }
 
         .boton-calcular:hover {
-            background-color: #21485e;
+            background-color: #020202;
         }
-
-    .panel-grafico {
-        min-height: 530px;
-    }
-
-    .grafico-vacio {
-        display: flex;
-        height: 440px;
-        padding: 20px;
-        align-items: center;
-        justify-content: center;
-        border: 1px solid #bbb;
-        border-radius: 6px;
-        background-image: linear-gradient(#eeeeee 1px, transparent 1px), linear-gradient(90deg, #eeeeee 1px, transparent 1px);
-        background-size: 25px 25px;
-        color: #777;
-        text-align: center;
-        box-sizing: border-box;
-    }
-
-    .fila-resultado {
-        margin-bottom: 15px;
-    }
-
-        .fila-resultado label {
-            display: block;
-            margin-bottom: 5px;
-            color: #555;
-            font-weight: 600;
-        }
-
-    .valor-resultado {
-        min-height: 38px;
-        padding: 9px;
-        border: 1px solid #bbb;
-        border-radius: 5px;
-        background-color: #f4f4f4;
-        box-sizing: border-box;
-        word-break: break-word;
-    }
 
     .mensaje-error {
         margin-bottom: 20px;
-        padding: 12px;
-        border: 1px solid #dc3545;
-        border-radius: 6px;
+        padding: 13px;
+        border: 1px solid #b02a37;
+        border-radius: 7px;
         background-color: #f8d7da;
         color: #842029;
     }
@@ -155,17 +130,69 @@
     .text-danger {
         display: block;
         margin-top: 4px;
-        color: #dc3545;
+        color: #b02a37;
         font-size: 13px;
     }
 
-    @@media (max-width: 1000px) {
+    .panel-grafico {
+        min-height: 620px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        overflow: hidden;
+        padding: 25px;
+    }
+
+    .contenedor-geogebra {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+    }
+
+    #ggb-element {
+        width: 590px;
+        height: 520px;
+        margin: 0 auto;
+        overflow: hidden;
+        border-radius: 8px;
+        background-color: white;
+    }
+
+        #ggb-element > div {
+            margin: 0 auto !important;
+        }
+
+    .fila-resultado {
+        margin-bottom: 14px;
+    }
+
+        .fila-resultado label {
+            display: block;
+            margin-bottom: 5px;
+            color: #020202;
+            font-weight: bold;
+        }
+
+    .valor-resultado {
+        min-height: 39px;
+        padding: 10px;
+        border: 1px solid #999;
+        border-radius: 6px;
+        background-color: white;
+        color: #020202;
+        word-break: break-word;
+    }
+
+    @@media (max-width: 1050px) {
         .contenedor-paneles {
             grid-template-columns: 1fr;
         }
 
-        .panel-grafico {
-            min-height: auto;
+        #ggb-element {
+            width: 100%;
+            max-width: 590px;
         }
     }
 </style>
@@ -191,18 +218,16 @@
 
     <div class="contenedor-paneles">
 
-        <!-- INGRESO DE DATOS -->
+        <!-- Ingreso de datos -->
         <section class="panel">
 
             <h2>Ingreso de datos</h2>
 
-            @using (Html.BeginForm(
-                "Index",
-                "Unidad1",
-                FormMethod.Post))
+            @using (Html.BeginForm("Index", "Unidad1", FormMethod.Post))
             {
                 @Html.AntiForgeryToken()
 
+                // Función
                 <div class="grupo-campo">
 
                     @Html.LabelFor(m => m.Funcion)
@@ -222,6 +247,7 @@
 
                 </div>
 
+                // Método
                 <div class="grupo-campo">
 
                     @Html.LabelFor(m => m.Metodo)
@@ -235,18 +261,36 @@
                                 Text = "Seleccione un método",
                                 Value = ""
                             },
+
                             new SelectListItem
                             {
                                 Text = "Bisección",
                                 Value = "Biseccion"
                             },
+
                             new SelectListItem
                             {
                                 Text = "Regla falsa",
                                 Value = "ReglaFalsa"
+                            },
+
+                            new SelectListItem
+                            {
+                                Text = "Newton-Raphson",
+                                Value = "Newton"
+                            },
+
+                            new SelectListItem
+                            {
+                                Text = "Secante",
+                                Value = "Secante"
                             }
                         },
-                        new { @class = "campo" })
+                        new
+                        {
+                            @class = "campo",
+                            id = "Metodo"
+                        })
 
                     @Html.ValidationMessageFor(
                         m => m.Metodo,
@@ -255,6 +299,7 @@
 
                 </div>
 
+                // Iteraciones
                 <div class="grupo-campo">
 
                     @Html.LabelFor(m => m.Iteraciones)
@@ -276,6 +321,7 @@
 
                 </div>
 
+                // Tolerancia
                 <div class="grupo-campo">
 
                     @Html.LabelFor(m => m.Tolerancia)
@@ -295,13 +341,16 @@
 
                 </div>
 
-                <div class="grupo-campo">
+                // Métodos cerrados
+                <div id="camposCerrados">
 
-                    <label>Intervalo</label>
+                    <div class="subtitulo-campo">
+                        Intervalo
+                    </div>
 
-                    <div class="intervalo">
+                    <div class="dos-columnas">
 
-                        <div>
+                        <div class="grupo-campo">
 
                             @Html.LabelFor(m => m.Xi)
 
@@ -310,17 +359,12 @@
                                 new
                                 {
                                     @class = "campo",
-                                    placeholder = "1"
+                                    placeholder = "Xi"
                                 })
-
-                            @Html.ValidationMessageFor(
-                                m => m.Xi,
-                                "",
-                                new { @class = "text-danger" })
 
                         </div>
 
-                        <div>
+                        <div class="grupo-campo">
 
                             @Html.LabelFor(m => m.Xd)
 
@@ -329,15 +373,113 @@
                                 new
                                 {
                                     @class = "campo",
-                                    placeholder = "2"
+                                    placeholder = "Xd"
                                 })
 
-                            @Html.ValidationMessageFor(
-                                m => m.Xd,
-                                "",
-                                new { @class = "text-danger" })
+                        </div>
+
+                    </div>
+
+                </div>
+
+                // Newton
+                <div id="camposNewton"
+                     style="display:none;">
+
+                    <div class="subtitulo-campo">
+                        Valor inicial
+                    </div>
+
+                    <div class="grupo-campo">
+
+                        @Html.LabelFor(m => m.X0)
+
+                        @Html.TextBoxFor(
+                            m => m.X0,
+                            new
+                            {
+                                @class = "campo",
+                                placeholder = "X0"
+                            })
+
+                    </div>
+
+                </div>
+
+                // Secante
+                <div id="camposSecante"
+                     style="display:none;">
+
+                    <div class="subtitulo-campo">
+                        Valores iniciales
+                    </div>
+
+                    <div class="dos-columnas">
+
+                        <div class="grupo-campo">
+
+                            @Html.LabelFor(m => m.X0)
+
+                            @Html.TextBoxFor(
+                                m => m.X0,
+                                new
+                                {
+                                    @class = "campo",
+                                    placeholder = "X0"
+                                })
 
                         </div>
+
+                        <div class="grupo-campo">
+
+                            @Html.LabelFor(m => m.X1)
+
+                            @Html.TextBoxFor(
+                                m => m.X1,
+                                new
+                                {
+                                    @class = "campo",
+                                    placeholder = "X1"
+                                })
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                // Escala del gráfico
+                <div class="subtitulo-campo">
+                    Escala del gráfico
+                </div>
+
+                <div class="dos-columnas">
+
+                    <div class="grupo-campo">
+
+                        @Html.LabelFor(m => m.XMin)
+
+                        @Html.TextBoxFor(
+                            m => m.XMin,
+                            new
+                            {
+                                @class = "campo",
+                                placeholder = "-5"
+                            })
+
+                    </div>
+
+                    <div class="grupo-campo">
+
+                        @Html.LabelFor(m => m.XMax)
+
+                        @Html.TextBoxFor(
+                            m => m.XMax,
+                            new
+                            {
+                                @class = "campo",
+                                placeholder = "5"
+                            })
 
                     </div>
 
@@ -351,18 +493,18 @@
 
         </section>
 
-
-        <!-- GRÁFICO -->
+        <!-- Gráfico -->
         <section class="panel panel-grafico">
 
             <h2>Gráfico</h2>
 
-            <div id="ggb-element"></div>
+            <div class="contenedor-geogebra">
+                <div id="ggb-element"></div>
+            </div>
 
         </section>
 
-
-        <!-- RESULTADOS -->
+        <!-- Resultados -->
         <section class="panel">
 
             <h2>Resultados</h2>
@@ -382,7 +524,6 @@
                 </div>
             </div>
 
-
             <div class="fila-resultado">
                 <label>Método utilizado</label>
 
@@ -396,6 +537,14 @@
                     {
                         <text>Regla falsa</text>
                     }
+                    else if (Model.Metodo == "Newton")
+                    {
+                        <text>Newton-Raphson</text>
+                    }
+                    else if (Model.Metodo == "Secante")
+                    {
+                        <text>Secante</text>
+                    }
                     else
                     {
                         <text>—</text>
@@ -403,7 +552,6 @@
 
                 </div>
             </div>
-
 
             <div class="fila-resultado">
                 <label>Iteraciones realizadas</label>
@@ -422,7 +570,6 @@
                 </div>
             </div>
 
-
             <div class="fila-resultado">
                 <label>Tolerancia utilizada</label>
 
@@ -440,17 +587,53 @@
                 </div>
             </div>
 
-
             <div class="fila-resultado">
-                <label>Intervalo utilizado</label>
+                <label>Valores iniciales</label>
 
                 <div class="valor-resultado">
 
-                    @if (Model.Xi.HasValue && Model.Xd.HasValue)
+                    @if (Model.Metodo == "Biseccion" ||
+                         Model.Metodo == "ReglaFalsa")
                     {
-                        <text>
-                            [@Model.Xi.Value, @Model.Xd.Value]
-                        </text>
+                        if (Model.Xi.HasValue &&
+                            Model.Xd.HasValue)
+                        {
+                            <text>
+                                [@Model.Xi.Value, @Model.Xd.Value]
+                            </text>
+                        }
+                        else
+                        {
+                            <text>—</text>
+                        }
+                    }
+                    else if (Model.Metodo == "Newton")
+                    {
+                        if (Model.X0.HasValue)
+                        {
+                            <text>
+                                X0 = @Model.X0.Value
+                            </text>
+                        }
+                        else
+                        {
+                            <text>—</text>
+                        }
+                    }
+                    else if (Model.Metodo == "Secante")
+                    {
+                        if (Model.X0.HasValue &&
+                            Model.X1.HasValue)
+                        {
+                            <text>
+                                X0 = @Model.X0.Value,
+                                X1 = @Model.X1.Value
+                            </text>
+                        }
+                        else
+                        {
+                            <text>—</text>
+                        }
                     }
                     else
                     {
@@ -459,7 +642,6 @@
 
                 </div>
             </div>
-
 
             <div class="fila-resultado">
                 <label>¿Converge?</label>
@@ -485,7 +667,6 @@
                 </div>
             </div>
 
-
             <div class="fila-resultado">
                 <label>Raíz</label>
 
@@ -502,7 +683,6 @@
 
                 </div>
             </div>
-
 
             <div class="fila-resultado">
                 <label>Error</label>
@@ -526,34 +706,136 @@
     </div>
 
 </main>
+
+<!-- GeoGebra -->
 <script src="https://www.geogebra.org/apps/deployggb.js"></script>
 
 <script>
+
     var parametros = {
-        "appName": "graphing",
-        "width": 600,
-        "height": 440,
+
+        "appName": "classic",
+        "perspective": "G",
+
+        "width": 590,
+        "height": 520,
+
         "showToolBar": false,
         "showAlgebraInput": false,
         "showMenuBar": false,
+        "enableShiftDragZoom": true,
+
         "appletOnLoad": function (api) {
 
-            var funcion = '@Html.Raw(HttpUtility.JavaScriptStringEncode(Model.Funcion ?? ""))';
+            var funcion =
+                '@Html.Raw(HttpUtility.JavaScriptStringEncode(Model.Funcion ?? ""))';
 
-var funcionValida =
-    @((ViewBag.FuncionValida ?? false).ToString().ToLower());
+            var funcionValida =
+                @((ViewBag.FuncionValida ?? false).ToString().ToLower());
 
-if (funcionValida && funcion !== "") {
-    api.evalCommand("f(x)=" + funcion);
-}
+            // Escala
+            var xMin =
+                @(Model.XMin.HasValue
+                    ? Model.XMin.Value.ToString(
+                        System.Globalization.CultureInfo.InvariantCulture)
+                    : "-5");
+
+            var xMax =
+                @(Model.XMax.HasValue
+                    ? Model.XMax.Value.ToString(
+                        System.Globalization.CultureInfo.InvariantCulture)
+                    : "5");
+
+            api.setCoordSystem(
+                xMin,
+                xMax,
+                -5,
+                5
+            );
+
+            // Graficar función
+            if (funcionValida && funcion !== "") {
+
+                api.evalCommand(
+                    "f(x)=" + funcion
+                );
+            }
         }
     };
 
-    var applet = new GGBApplet(parametros, true);
+    var applet =
+        new GGBApplet(
+            parametros,
+            true
+        );
 
-    window.addEventListener("load", function () {
-        applet.inject("ggb-element");
-    });
+    window.addEventListener(
+        "load",
+        function () {
+
+            applet.inject(
+                "ggb-element"
+            );
+
+        }
+    );
+
+</script>
+
+<!-- Mostrar campos según método -->
+<script>
+
+    function actualizarCamposMetodo() {
+
+        var metodo =
+            document.getElementById("Metodo").value;
+
+        var cerrados =
+            document.getElementById("camposCerrados");
+
+        var newton =
+            document.getElementById("camposNewton");
+
+        var secante =
+            document.getElementById("camposSecante");
+
+        cerrados.style.display = "none";
+        newton.style.display = "none";
+        secante.style.display = "none";
+
+        if (
+            metodo === "Biseccion" ||
+            metodo === "ReglaFalsa"
+        ) {
+            cerrados.style.display = "block";
+        }
+        else if (
+            metodo === "Newton"
+        ) {
+            newton.style.display = "block";
+        }
+        else if (
+            metodo === "Secante"
+        ) {
+            secante.style.display = "block";
+        }
+    }
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+
+            actualizarCamposMetodo();
+
+            document
+                .getElementById("Metodo")
+                .addEventListener(
+                    "change",
+                    actualizarCamposMetodo
+                );
+        }
+    );
+
 </script>
 
 @section Scripts {

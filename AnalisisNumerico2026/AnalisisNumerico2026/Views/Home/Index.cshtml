@@ -3,81 +3,105 @@
 }
 
 <style>
+    body {
+        background-color: #2B2C33;
+    }
+
     .inicio-analisis {
-        max-width: 900px;
-        margin: 40px auto;
+        max-width: 1000px;
+        margin: 55px auto;
         text-align: center;
         font-family: Arial, sans-serif;
     }
 
         .inicio-analisis h1 {
-            margin-bottom: 5px;
-            font-size: 38px;
-            color: #253238;
+            margin-bottom: 8px;
+            font-size: 36px;
+            font-weight: 600;
+            color: #B2D5E5;
+            letter-spacing: 0.5px;
         }
 
     .subtitulo {
-        margin-bottom: 35px;
-        color: #6c757d;
+        position: relative;
+        display: inline-block;
+        margin-bottom: 42px;
+        padding-bottom: 12px;
+        color: #B2D5E5;
         font-size: 17px;
     }
+
+        .subtitulo::after {
+            content: "";
+            position: absolute;
+            width: 55px;
+            height: 3px;
+            left: 50%;
+            bottom: 0;
+            transform: translateX(-50%);
+            background-color: #B2D5E5;
+            border-radius: 10px;
+        }
 
     .contenedor-unidades {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
-        gap: 25px;
+        gap: 28px;
     }
 
     .tarjeta-unidad {
-        min-height: 240px;
-        padding: 25px;
-        border: 1px solid #b7b7b7;
-        border-radius: 8px;
-        background-color: white;
-        color: #253238;
+        min-height: 225px;
+        padding: 30px 25px;
+        border: 1px solid rgba(255,255,255,0.12);
+        border-radius: 16px;
+        background-color: #B2D5E5;
+        color: #020202;
         text-decoration: none;
-        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
-        transition: transform 0.2s, box-shadow 0.2s;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.22);
+        transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
     }
 
         .tarjeta-unidad:hover {
-            transform: translateY(-4px);
-            color: #253238;
+            transform: translateY(-6px);
+            background-color: #c2deeb;
+            color: #020202;
             text-decoration: none;
-            box-shadow: 0 7px 14px rgba(0, 0, 0, 0.20);
+            box-shadow: 0 14px 30px rgba(0, 0, 0, 0.30);
         }
 
     .unidad-icono {
         display: flex;
-        width: 110px;
-        height: 80px;
-        margin: 0 auto 20px;
+        width: 95px;
+        height: 70px;
+        margin: 0 auto 22px;
         align-items: center;
         justify-content: center;
-        border-bottom: 2px solid #444;
-        color: #2c5f7c;
-        font-size: 30px;
-        font-weight: bold;
+        border-bottom: 2px solid #3A3B42;
+        color: #3A3B42;
+        font-size: 29px;
+        font-weight: 700;
     }
 
     .tarjeta-unidad h2 {
         margin-bottom: 8px;
-        font-size: 24px;
+        color: #020202;
+        font-size: 23px;
+        font-weight: 600;
     }
 
     .nombre-unidad {
-        margin-bottom: 12px;
-        font-size: 17px;
-    }
-
-    .descripcion-unidad {
-        color: #777;
-        font-size: 14px;
+        margin-bottom: 0;
+        color: #222;
+        font-size: 16px;
     }
 
     @@media (max-width: 768px) {
         .contenedor-unidades {
             grid-template-columns: 1fr;
+        }
+
+        .inicio-analisis {
+            margin: 35px 20px;
         }
     }
 </style>
@@ -100,10 +124,8 @@
                 Raíces de funciones
             </p>
 
-            <p class="descripcion-unidad">
-                Acceder a contenidos y ejercicios
-            </p>
         </a>
+
 
         <a href="#" class="tarjeta-unidad">
 
@@ -115,10 +137,8 @@
                 Sistemas de ecuaciones
             </p>
 
-            <p class="descripcion-unidad">
-                Acceder a contenidos y ejercicios
-            </p>
         </a>
+
 
         <a href="#" class="tarjeta-unidad">
 
@@ -130,10 +150,8 @@
                 Ajuste de curvas
             </p>
 
-            <p class="descripcion-unidad">
-                Acceder a contenidos y ejercicios
-            </p>
         </a>
+
 
         <a href="#" class="tarjeta-unidad">
 
@@ -145,9 +163,6 @@
                 Integración numérica
             </p>
 
-            <p class="descripcion-unidad">
-                Acceder a contenidos y ejercicios
-            </p>
         </a>
 
     </div>
