@@ -341,8 +341,9 @@
 
                 </div>
 
-                // Métodos cerrados
-                <div id="camposCerrados">
+                // Bisección y Regla Falsa
+                <div id="camposCerrados"
+                     style="display:none;">
 
                     <div class="subtitulo-campo">
                         Intervalo
@@ -382,41 +383,20 @@
 
                 </div>
 
-                // Newton
-                <div id="camposNewton"
+                // Newton y Secante
+                <div id="camposAbiertos"
                      style="display:none;">
 
-                    <div class="subtitulo-campo">
-                        Valor inicial
-                    </div>
-
-                    <div class="grupo-campo">
-
-                        @Html.LabelFor(m => m.X0)
-
-                        @Html.TextBoxFor(
-                            m => m.X0,
-                            new
-                            {
-                                @class = "campo",
-                                placeholder = "X0"
-                            })
-
-                    </div>
-
-                </div>
-
-                // Secante
-                <div id="camposSecante"
-                     style="display:none;">
-
-                    <div class="subtitulo-campo">
+                    <div class="subtitulo-campo"
+                         id="tituloValoresIniciales">
                         Valores iniciales
                     </div>
 
-                    <div class="dos-columnas">
+                    <div class="dos-columnas"
+                         id="contenedorValoresAbiertos">
 
-                        <div class="grupo-campo">
+                        <div class="grupo-campo"
+                             id="campoX0">
 
                             @Html.LabelFor(m => m.X0)
 
@@ -430,7 +410,8 @@
 
                         </div>
 
-                        <div class="grupo-campo">
+                        <div class="grupo-campo"
+                             id="campoX1">
 
                             @Html.LabelFor(m => m.X1)
 
@@ -499,7 +480,9 @@
             <h2>Gráfico</h2>
 
             <div class="contenedor-geogebra">
+
                 <div id="ggb-element"></div>
+
             </div>
 
         </section>
@@ -510,9 +493,11 @@
             <h2>Resultados</h2>
 
             <div class="fila-resultado">
+
                 <label>Función utilizada</label>
 
                 <div class="valor-resultado">
+
                     @if (!string.IsNullOrWhiteSpace(Model.Funcion))
                     {
                         @Model.Funcion
@@ -521,10 +506,13 @@
                     {
                         <text>—</text>
                     }
+
                 </div>
+
             </div>
 
             <div class="fila-resultado">
+
                 <label>Método utilizado</label>
 
                 <div class="valor-resultado">
@@ -551,9 +539,11 @@
                     }
 
                 </div>
+
             </div>
 
             <div class="fila-resultado">
+
                 <label>Iteraciones realizadas</label>
 
                 <div class="valor-resultado">
@@ -568,9 +558,11 @@
                     }
 
                 </div>
+
             </div>
 
             <div class="fila-resultado">
+
                 <label>Tolerancia utilizada</label>
 
                 <div class="valor-resultado">
@@ -585,9 +577,11 @@
                     }
 
                 </div>
+
             </div>
 
             <div class="fila-resultado">
+
                 <label>Valores iniciales</label>
 
                 <div class="valor-resultado">
@@ -599,7 +593,8 @@
                             Model.Xd.HasValue)
                         {
                             <text>
-                                [@Model.Xi.Value, @Model.Xd.Value]
+                                Xi = @Model.Xi.Value,
+                                Xd = @Model.Xd.Value
                             </text>
                         }
                         else
@@ -641,9 +636,11 @@
                     }
 
                 </div>
+
             </div>
 
             <div class="fila-resultado">
+
                 <label>¿Converge?</label>
 
                 <div class="valor-resultado">
@@ -665,9 +662,11 @@
                     }
 
                 </div>
+
             </div>
 
             <div class="fila-resultado">
+
                 <label>Raíz</label>
 
                 <div class="valor-resultado">
@@ -682,9 +681,11 @@
                     }
 
                 </div>
+
             </div>
 
             <div class="fila-resultado">
+
                 <label>Error</label>
 
                 <div class="valor-resultado">
@@ -699,6 +700,7 @@
                     }
 
                 </div>
+
             </div>
 
         </section>
@@ -716,10 +718,8 @@
 
         "appName": "classic",
         "perspective": "G",
-
         "width": 590,
         "height": 520,
-
         "showToolBar": false,
         "showAlgebraInput": false,
         "showMenuBar": false,
@@ -759,6 +759,7 @@
                 api.evalCommand(
                     "f(x)=" + funcion
                 );
+
             }
         }
     };
@@ -793,31 +794,63 @@
         var cerrados =
             document.getElementById("camposCerrados");
 
-        var newton =
-            document.getElementById("camposNewton");
+        var abiertos =
+            document.getElementById("camposAbiertos");
 
-        var secante =
-            document.getElementById("camposSecante");
+        var campoX1 =
+            document.getElementById("campoX1");
 
+        var contenedorAbiertos =
+            document.getElementById("contenedorValoresAbiertos");
+
+        var titulo =
+            document.getElementById("tituloValoresIniciales");
+
+        // Ocultar campos
         cerrados.style.display = "none";
-        newton.style.display = "none";
-        secante.style.display = "none";
+        abiertos.style.display = "none";
+        campoX1.style.display = "none";
 
+        // Bisección y Regla Falsa
         if (
             metodo === "Biseccion" ||
             metodo === "ReglaFalsa"
         ) {
+
             cerrados.style.display = "block";
+
         }
+
+        // Newton-Raphson
         else if (
             metodo === "Newton"
         ) {
-            newton.style.display = "block";
+
+            abiertos.style.display = "block";
+            campoX1.style.display = "none";
+
+            titulo.innerText =
+                "Valor inicial";
+
+            contenedorAbiertos.style.gridTemplateColumns =
+                "1fr";
+
         }
+
+        // Secante
         else if (
             metodo === "Secante"
         ) {
-            secante.style.display = "block";
+
+            abiertos.style.display = "block";
+            campoX1.style.display = "block";
+
+            titulo.innerText =
+                "Valores iniciales";
+
+            contenedorAbiertos.style.gridTemplateColumns =
+                "1fr 1fr";
+
         }
     }
 
@@ -833,6 +866,7 @@
                     "change",
                     actualizarCamposMetodo
                 );
+
         }
     );
 
