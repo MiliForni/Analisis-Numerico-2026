@@ -6,7 +6,7 @@
 
 <style>
     body {
-        background-color: #2B2C33;
+        background-color: #FFFFFF;
     }
 
     .pagina-unidad {
@@ -19,131 +19,174 @@
     .volver {
         display: inline-block;
         margin-bottom: 18px;
-        color: #B2D5E5;
+        color: #666666;
         text-decoration: none;
-        font-size: 15px;
+        font-size: 14px;
+        font-weight: bold;
     }
 
         .volver:hover {
-            color: white;
+            color: #E889AE;
             text-decoration: none;
         }
 
     .encabezado-unidad {
-        margin-bottom: 30px;
+        margin: 0 0 28px 0;
+        padding: 0;
         text-align: center;
     }
 
         .encabezado-unidad h1 {
-            margin-bottom: 7px;
-            color: #B2D5E5;
-            font-size: 36px;
+            margin: 0 0 5px 0;
+            padding: 0;
+            color: #555555;
+            font-size: 34px;
+            font-weight: bold;
         }
 
         .encabezado-unidad p {
-            color: #B2D5E5;
-            font-size: 17px;
+            margin: 0;
+            padding: 0;
+            color: #777777;
+            font-size: 16px;
         }
 
+    .linea-titulo {
+        width: 60px;
+        height: 3px;
+        margin: 12px auto 0;
+        border-radius: 3px;
+        background-color: #E889AE;
+    }
+
+    /* Tres paneles al mismo nivel */
     .contenedor-paneles {
         display: grid;
-        grid-template-columns: 310px 1fr 300px;
-        gap: 22px;
-        align-items: stretch;
+        grid-template-columns: 270px 1fr 270px;
+        gap: 20px;
+        align-items: start;
+        margin: 0;
+        padding: 0;
     }
 
     .panel {
-        padding: 25px;
-        border-radius: 14px;
-        background-color: #B2D5E5;
-        box-shadow: 0 7px 18px rgba(0, 0, 0, 0.25);
+        margin: 0;
+        padding: 18px;
+        border: 2px solid #E8A0BC;
+        border-radius: 6px;
+        background-color: #FFFFFF;
+        box-sizing: border-box;
+        align-self: start;
     }
 
-        .panel h2 {
-            margin-top: 0;
-            margin-bottom: 25px;
-            color: #020202;
-            text-align: center;
-            font-size: 23px;
-        }
+    .panel-ingreso {
+        margin-top: 0;
+        align-self: start;
+    }
+
+    .panel-grafico {
+        margin-top: 0;
+        padding: 25px;
+        align-self: start;
+    }
+
+    .panel-resultados {
+        margin-top: 0;
+        align-self: start;
+    }
+
+    .panel h2 {
+        margin: 0 0 18px 0;
+        padding: 0;
+        color: #555555;
+        text-align: center;
+        font-size: 20px;
+        font-weight: bold;
+        line-height: 1.2;
+    }
+
+    .panel-grafico h2 {
+        margin: 0 0 25px 0;
+        font-size: 22px;
+    }
 
     .grupo-campo {
-        margin-bottom: 16px;
+        margin-bottom: 12px;
     }
 
         .grupo-campo label {
             display: block;
-            margin-bottom: 6px;
-            color: #020202;
+            margin-bottom: 5px;
+            color: #555555;
+            font-size: 13px;
             font-weight: bold;
         }
 
     .campo {
         width: 100%;
-        padding: 10px;
-        border: 1px solid #777;
-        border-radius: 6px;
-        background-color: white;
-        color: #020202;
+        padding: 8px 9px;
+        border: 1px solid #BBBBBB;
+        border-radius: 2px;
+        background-color: #FFFFFF;
+        color: #444444;
+        font-size: 14px;
         box-sizing: border-box;
     }
+
+        .campo:focus {
+            outline: none;
+            border-color: #E889AE;
+            box-shadow: 0 0 0 2px rgba(232, 137, 174, 0.15);
+        }
 
     .dos-columnas {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 12px;
+        gap: 10px;
     }
 
     .subtitulo-campo {
-        margin-top: 20px;
-        margin-bottom: 12px;
-        color: #2B2C33;
-        font-size: 15px;
+        margin-top: 15px;
+        margin-bottom: 9px;
+        color: #666666;
+        font-size: 13px;
         font-weight: bold;
     }
 
     .boton-calcular {
         width: 100%;
-        margin-top: 8px;
-        padding: 12px;
+        margin-top: 7px;
+        padding: 10px;
         border: none;
-        border-radius: 7px;
-        background-color: #2B2C33;
-        color: white;
-        font-size: 16px;
+        border-radius: 2px;
+        background-color: #E889AE;
+        color: #FFFFFF;
+        font-size: 14px;
+        font-weight: bold;
         cursor: pointer;
+        text-transform: uppercase;
     }
 
         .boton-calcular:hover {
-            background-color: #020202;
+            background-color: #DC789F;
         }
 
     .mensaje-error {
         margin-bottom: 20px;
-        padding: 13px;
-        border: 1px solid #b02a37;
-        border-radius: 7px;
-        background-color: #f8d7da;
-        color: #842029;
+        padding: 12px 15px;
+        border-left: 5px solid #E889AE;
+        background-color: #FCE8F0;
+        color: #555555;
     }
 
     .text-danger {
         display: block;
         margin-top: 4px;
-        color: #b02a37;
-        font-size: 13px;
+        color: #C45E83;
+        font-size: 12px;
     }
 
-    .panel-grafico {
-        min-height: 620px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: flex-start;
-        overflow: hidden;
-        padding: 25px;
-    }
-
+    /* Gráfico - no modificar tamaño */
     .contenedor-geogebra {
         width: 100%;
         display: flex;
@@ -156,7 +199,8 @@
         height: 520px;
         margin: 0 auto;
         overflow: hidden;
-        border-radius: 8px;
+        border: 1px solid #E8A0BC;
+        border-radius: 3px;
         background-color: white;
     }
 
@@ -164,28 +208,36 @@
             margin: 0 auto !important;
         }
 
+    /* Resultados */
     .fila-resultado {
-        margin-bottom: 14px;
+        margin-bottom: 9px;
     }
 
         .fila-resultado label {
             display: block;
-            margin-bottom: 5px;
-            color: #020202;
+            margin-bottom: 4px;
+            color: #555555;
+            font-size: 13px;
             font-weight: bold;
         }
 
     .valor-resultado {
-        min-height: 39px;
-        padding: 10px;
-        border: 1px solid #999;
-        border-radius: 6px;
-        background-color: white;
-        color: #020202;
+        min-height: 32px;
+        padding: 7px 9px;
+        border-bottom: 1px solid #E8A0BC;
+        background-color: #FFF8FB;
+        color: #555555;
+        font-size: 14px;
+        box-sizing: border-box;
         word-break: break-word;
     }
 
+    .resultado-raiz {
+        font-weight: bold;
+    }
+
     @@media (max-width: 1050px) {
+
         .contenedor-paneles {
             grid-template-columns: 1fr;
         }
@@ -205,8 +257,17 @@
     </a>
 
     <header class="encabezado-unidad">
-        <h1>Análisis Numérico</h1>
-        <p>Unidad 1 - Raíces de funciones</p>
+
+        <h1>
+            Análisis Numérico
+        </h1>
+
+        <p>
+            Unidad 1 - Raíces de funciones
+        </p>
+
+        <div class="linea-titulo"></div>
+
     </header>
 
     @if (!string.IsNullOrWhiteSpace(Model.MensajeError))
@@ -219,9 +280,11 @@
     <div class="contenedor-paneles">
 
         <!-- Ingreso de datos -->
-        <section class="panel">
+        <section class="panel panel-ingreso">
 
-            <h2>Ingreso de datos</h2>
+            <h2>
+                Ingreso de datos
+            </h2>
 
             @using (Html.BeginForm("Index", "Unidad1", FormMethod.Post))
             {
@@ -389,7 +452,9 @@
 
                     <div class="subtitulo-campo"
                          id="tituloValoresIniciales">
+
                         Valores iniciales
+
                     </div>
 
                     <div class="dos-columnas"
@@ -468,7 +533,9 @@
 
                 <button type="submit"
                         class="boton-calcular">
+
                     Calcular
+
                 </button>
             }
 
@@ -477,7 +544,9 @@
         <!-- Gráfico -->
         <section class="panel panel-grafico">
 
-            <h2>Gráfico</h2>
+            <h2>
+                Gráfico
+            </h2>
 
             <div class="contenedor-geogebra">
 
@@ -488,13 +557,17 @@
         </section>
 
         <!-- Resultados -->
-        <section class="panel">
+        <section class="panel panel-resultados">
 
-            <h2>Resultados</h2>
+            <h2>
+                Resultados
+            </h2>
 
             <div class="fila-resultado">
 
-                <label>Función utilizada</label>
+                <label>
+                    Función utilizada
+                </label>
 
                 <div class="valor-resultado">
 
@@ -513,7 +586,9 @@
 
             <div class="fila-resultado">
 
-                <label>Método utilizado</label>
+                <label>
+                    Método utilizado
+                </label>
 
                 <div class="valor-resultado">
 
@@ -544,7 +619,9 @@
 
             <div class="fila-resultado">
 
-                <label>Iteraciones realizadas</label>
+                <label>
+                    Iteraciones realizadas
+                </label>
 
                 <div class="valor-resultado">
 
@@ -563,7 +640,9 @@
 
             <div class="fila-resultado">
 
-                <label>Tolerancia utilizada</label>
+                <label>
+                    Tolerancia utilizada
+                </label>
 
                 <div class="valor-resultado">
 
@@ -582,7 +661,9 @@
 
             <div class="fila-resultado">
 
-                <label>Valores iniciales</label>
+                <label>
+                    Valores iniciales
+                </label>
 
                 <div class="valor-resultado">
 
@@ -641,7 +722,9 @@
 
             <div class="fila-resultado">
 
-                <label>¿Converge?</label>
+                <label>
+                    ¿Converge?
+                </label>
 
                 <div class="valor-resultado">
 
@@ -667,9 +750,11 @@
 
             <div class="fila-resultado">
 
-                <label>Raíz</label>
+                <label>
+                    Raíz
+                </label>
 
-                <div class="valor-resultado">
+                <div class="valor-resultado resultado-raiz">
 
                     @if (Model.Raiz.HasValue)
                     {
@@ -686,7 +771,9 @@
 
             <div class="fila-resultado">
 
-                <label>Error</label>
+                <label>
+                    Error
+                </label>
 
                 <div class="valor-resultado">
 
@@ -718,8 +805,10 @@
 
         "appName": "classic",
         "perspective": "G",
+
         "width": 590,
         "height": 520,
+
         "showToolBar": false,
         "showAlgebraInput": false,
         "showMenuBar": false,
@@ -746,6 +835,16 @@
                         System.Globalization.CultureInfo.InvariantCulture)
                     : "5");
 
+            // Raíz
+            var tieneRaiz =
+                @Model.Raiz.HasValue.ToString().ToLower();
+
+            var raiz =
+                @(Model.Raiz.HasValue
+                    ? Model.Raiz.Value.ToString(
+                        System.Globalization.CultureInfo.InvariantCulture)
+                    : "0");
+
             api.setCoordSystem(
                 xMin,
                 xMax,
@@ -754,12 +853,54 @@
             );
 
             // Graficar función
-            if (funcionValida && funcion !== "") {
+            if (
+                funcionValida &&
+                funcion !== ""
+            ) {
 
                 api.evalCommand(
                     "f(x)=" + funcion
                 );
 
+                api.setColor(
+                    "f",
+                    232,
+                    137,
+                    174
+                );
+
+                api.setLineThickness(
+                    "f",
+                    4
+                );
+            }
+
+            // Marcar raíz
+            if (
+                funcionValida &&
+                tieneRaiz
+            ) {
+
+                api.evalCommand(
+                    "R=(" + raiz + ",0)"
+                );
+
+                api.setColor(
+                    "R",
+                    232,
+                    137,
+                    174
+                );
+
+                api.setPointSize(
+                    "R",
+                    7
+                );
+
+                api.setLabelVisible(
+                    "R",
+                    true
+                );
             }
         }
     };
@@ -801,15 +942,23 @@
             document.getElementById("campoX1");
 
         var contenedorAbiertos =
-            document.getElementById("contenedorValoresAbiertos");
+            document.getElementById(
+                "contenedorValoresAbiertos"
+            );
 
         var titulo =
-            document.getElementById("tituloValoresIniciales");
+            document.getElementById(
+                "tituloValoresIniciales"
+            );
 
-        // Ocultar campos
-        cerrados.style.display = "none";
-        abiertos.style.display = "none";
-        campoX1.style.display = "none";
+        cerrados.style.display =
+            "none";
+
+        abiertos.style.display =
+            "none";
+
+        campoX1.style.display =
+            "none";
 
         // Bisección y Regla Falsa
         if (
@@ -817,7 +966,8 @@
             metodo === "ReglaFalsa"
         ) {
 
-            cerrados.style.display = "block";
+            cerrados.style.display =
+                "block";
 
         }
 
@@ -826,8 +976,11 @@
             metodo === "Newton"
         ) {
 
-            abiertos.style.display = "block";
-            campoX1.style.display = "none";
+            abiertos.style.display =
+                "block";
+
+            campoX1.style.display =
+                "none";
 
             titulo.innerText =
                 "Valor inicial";
@@ -842,8 +995,11 @@
             metodo === "Secante"
         ) {
 
-            abiertos.style.display = "block";
-            campoX1.style.display = "block";
+            abiertos.style.display =
+                "block";
+
+            campoX1.style.display =
+                "block";
 
             titulo.innerText =
                 "Valores iniciales";

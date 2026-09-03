@@ -4,167 +4,252 @@
 
 <style>
     body {
-        background-color: #2B2C33;
+        background-color: #FFFFFF;
     }
 
-    .inicio-analisis {
-        max-width: 1000px;
-        margin: 55px auto;
-        text-align: center;
+    .pagina-principal {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 55px 25px 70px;
         font-family: Arial, sans-serif;
     }
 
-        .inicio-analisis h1 {
-            margin-bottom: 8px;
-            font-size: 36px;
-            font-weight: 600;
-            color: #B2D5E5;
-            letter-spacing: 0.5px;
-        }
-
-    .subtitulo {
-        position: relative;
-        display: inline-block;
-        margin-bottom: 42px;
-        padding-bottom: 12px;
-        color: #B2D5E5;
-        font-size: 17px;
+    .encabezado-principal {
+        text-align: center;
+        margin-bottom: 45px;
     }
 
-        .subtitulo::after {
-            content: "";
-            position: absolute;
-            width: 55px;
-            height: 3px;
-            left: 50%;
-            bottom: 0;
-            transform: translateX(-50%);
-            background-color: #B2D5E5;
-            border-radius: 10px;
+        .encabezado-principal h1 {
+            margin: 0;
+            color: #555555;
+            font-size: 38px;
+            font-weight: bold;
         }
+
+        .encabezado-principal p {
+            margin-top: 12px;
+            margin-bottom: 12px;
+            color: #777777;
+            font-size: 18px;
+        }
+
+    .linea-titulo {
+        width: 60px;
+        height: 3px;
+        margin: 16px auto 0;
+        border-radius: 3px;
+        background-color: #E889AE;
+    }
 
     .contenedor-unidades {
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: 1fr 1fr;
         gap: 28px;
     }
 
     .tarjeta-unidad {
-        min-height: 225px;
-        padding: 30px 25px;
-        border: 1px solid rgba(255,255,255,0.12);
-        border-radius: 16px;
-        background-color: #B2D5E5;
-        color: #020202;
+        min-height: 220px;
+        padding: 30px;
+        border: 2px solid #E8A0BC;
+        border-radius: 6px;
+        background-color: #FFFFFF;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
         text-decoration: none;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.22);
-        transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+        transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+        box-sizing: border-box;
+        position: relative;
     }
 
         .tarjeta-unidad:hover {
-            transform: translateY(-6px);
-            background-color: #c2deeb;
-            color: #020202;
+            transform: translateY(-4px);
+            border-color: #E889AE;
+            box-shadow: 0 7px 18px rgba(232, 137, 174, 0.22);
             text-decoration: none;
-            box-shadow: 0 14px 30px rgba(0, 0, 0, 0.30);
         }
 
-    .unidad-icono {
-        display: flex;
+    .tarjeta-activa {
+        cursor: pointer;
+        pointer-events: auto;
+        z-index: 2;
+    }
+
+    .tarjeta-inactiva {
+        cursor: default;
+    }
+
+    .formula-unidad {
+        margin-bottom: 15px;
+        color: #555555;
+        font-size: 31px;
+        font-weight: bold;
+    }
+
+    .separador-unidad {
         width: 95px;
-        height: 70px;
-        margin: 0 auto 22px;
-        align-items: center;
-        justify-content: center;
-        border-bottom: 2px solid #3A3B42;
-        color: #3A3B42;
-        font-size: 29px;
-        font-weight: 700;
+        height: 2px;
+        margin-bottom: 18px;
+        background-color: #E889AE;
     }
 
     .tarjeta-unidad h2 {
-        margin-bottom: 8px;
-        color: #020202;
-        font-size: 23px;
-        font-weight: 600;
+        margin: 0 0 9px;
+        color: #555555;
+        font-size: 25px;
+        font-weight: bold;
     }
 
-    .nombre-unidad {
-        margin-bottom: 0;
-        color: #222;
+    .tarjeta-unidad p {
+        margin: 0;
+        color: #777777;
         font-size: 16px;
     }
 
-    @@media (max-width: 768px) {
+    .tarjeta-activa:hover .formula-unidad,
+    .tarjeta-activa:hover h2 {
+        color: #E889AE;
+    }
+
+    @@media (max-width: 800px) {
+
+        .pagina-principal {
+            padding: 35px 18px 50px;
+        }
+
         .contenedor-unidades {
             grid-template-columns: 1fr;
         }
 
-        .inicio-analisis {
-            margin: 35px 20px;
+        .encabezado-principal h1 {
+            font-size: 32px;
+        }
+
+        .tarjeta-unidad {
+            min-height: 190px;
         }
     }
 </style>
 
-<main class="inicio-analisis">
+<main class="pagina-principal">
 
-    <h1>Análisis Numérico</h1>
-    <p class="subtitulo">Menú principal</p>
+    <!-- Encabezado -->
+    <header class="encabezado-principal">
 
-    <div class="contenedor-unidades">
+        <h1>
+            Análisis Numérico
+        </h1>
 
-        <a href="@Url.Action("Index", "Unidad1")"
-           class="tarjeta-unidad">
+        <p>
+            Menú principal
+        </p>
 
-            <div class="unidad-icono">f(x)</div>
+        <div class="linea-titulo"></div>
 
-            <h2>Unidad 1</h2>
+    </header>
 
-            <p class="nombre-unidad">
-                Raíces de funciones
-            </p>
+    <!-- Unidades -->
+    <section class="contenedor-unidades">
 
-        </a>
+        <!-- Unidad 1 -->
+        @Html.ActionLink(
+            " ",
+            "Index",
+            "Unidad1",
+            null,
+            new
+            {
+                @class = "tarjeta-unidad tarjeta-activa",
+                id = "linkUnidad1"
+            }
+        )
 
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
 
-        <a href="#" class="tarjeta-unidad">
+                var tarjetaUnidad1 =
+                    document.getElementById("linkUnidad1");
 
-            <div class="unidad-icono">Ax = b</div>
+                if (tarjetaUnidad1) {
 
-            <h2>Unidad 2</h2>
+                    tarjetaUnidad1.innerHTML = `
+                                <div class="formula-unidad">
+                                    f(x)
+                                </div>
 
-            <p class="nombre-unidad">
+                                <div class="separador-unidad"></div>
+
+                                <h2>
+                                    Unidad 1
+                                </h2>
+
+                                <p>
+                                    Raíces de funciones
+                                </p>
+                            `;
+                }
+            });
+        </script>
+
+        <!-- Unidad 2 -->
+        <div class="tarjeta-unidad tarjeta-inactiva">
+
+            <div class="formula-unidad">
+                Ax = b
+            </div>
+
+            <div class="separador-unidad"></div>
+
+            <h2>
+                Unidad 2
+            </h2>
+
+            <p>
                 Sistemas de ecuaciones
             </p>
 
-        </a>
+        </div>
 
+        <!-- Unidad 3 -->
+        <div class="tarjeta-unidad tarjeta-inactiva">
 
-        <a href="#" class="tarjeta-unidad">
+            <div class="formula-unidad">
+                x, y
+            </div>
 
-            <div class="unidad-icono">x, y</div>
+            <div class="separador-unidad"></div>
 
-            <h2>Unidad 3</h2>
+            <h2>
+                Unidad 3
+            </h2>
 
-            <p class="nombre-unidad">
+            <p>
                 Ajuste de curvas
             </p>
 
-        </a>
+        </div>
 
+        <!-- Unidad 4 -->
+        <div class="tarjeta-unidad tarjeta-inactiva">
 
-        <a href="#" class="tarjeta-unidad">
+            <div class="formula-unidad">
+                ∫ f(x)
+            </div>
 
-            <div class="unidad-icono">&int; f(x)</div>
+            <div class="separador-unidad"></div>
 
-            <h2>Unidad 4</h2>
+            <h2>
+                Unidad 4
+            </h2>
 
-            <p class="nombre-unidad">
+            <p>
                 Integración numérica
             </p>
 
-        </a>
+        </div>
 
-    </div>
+    </section>
 
 </main>
