@@ -27,13 +27,12 @@ namespace AnalisisNumerico2026.Controllers
         {
             ViewBag.FuncionValida = false;
 
-            // Validaciones generales
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
-            // Validar datos para Bisección y Regla Falsa
+            // Validar Bisección y Regla Falsa
             if (model.Metodo == "Biseccion" ||
                 model.Metodo == "ReglaFalsa")
             {
@@ -47,7 +46,7 @@ namespace AnalisisNumerico2026.Controllers
                 }
             }
 
-            // Validar datos para Newton-Raphson
+            // Validar Newton-Raphson
             if (model.Metodo == "Newton")
             {
                 if (!model.X0.HasValue)
@@ -59,7 +58,7 @@ namespace AnalisisNumerico2026.Controllers
                 }
             }
 
-            // Validar datos para Secante
+            // Validar Secante
             if (model.Metodo == "Secante")
             {
                 if (!model.X0.HasValue ||
@@ -72,7 +71,7 @@ namespace AnalisisNumerico2026.Controllers
                 }
             }
 
-            // Validar escala del gráfico
+            // Validar escala
             if (model.XMin.HasValue &&
                 model.XMax.HasValue &&
                 model.XMin.Value >= model.XMax.Value)
@@ -83,7 +82,6 @@ namespace AnalisisNumerico2026.Controllers
                 return View(model);
             }
 
-            // Preparar función
             model.Funcion =
                 model.Funcion.Replace(',', '.');
 
@@ -181,7 +179,7 @@ namespace AnalisisNumerico2026.Controllers
             double fXd =
                 calculo.EvaluaFx(xd);
 
-            // Validar extremos
+            // Validar valores
             if (!EsNumeroValido(fXi) ||
                 !EsNumeroValido(fXd))
             {
@@ -205,7 +203,7 @@ namespace AnalisisNumerico2026.Controllers
             }
 
             // Xi es raíz
-            if (fXi == 0)
+            if (Math.Abs(fXi) < tolerancia)
             {
                 model.Raiz = xi;
                 model.Error = 0;
@@ -216,7 +214,7 @@ namespace AnalisisNumerico2026.Controllers
             }
 
             // Xd es raíz
-            if (fXd == 0)
+            if (Math.Abs(fXd) < tolerancia)
             {
                 model.Raiz = xd;
                 model.Error = 0;
@@ -253,8 +251,7 @@ namespace AnalisisNumerico2026.Controllers
                     double denominador =
                         fXd - fXi;
 
-                    if (Math.Abs(denominador) <
-                        0.000000000001)
+                    if (Math.Abs(denominador) < 0.000000000001)
                     {
                         model.MensajeError =
                             "No se puede continuar porque se produjo una división por cero.";
@@ -279,8 +276,7 @@ namespace AnalisisNumerico2026.Controllers
                 {
                     error =
                         Math.Abs(
-                            (xr - xrAnterior)
-                            / xr
+                            (xr - xrAnterior) / xr
                         );
                 }
                 else
@@ -294,7 +290,6 @@ namespace AnalisisNumerico2026.Controllers
                 double fXr =
                     calculo.EvaluaFx(xr);
 
-                // Validar resultado
                 if (!EsNumeroValido(fXr))
                 {
                     model.MensajeError =
@@ -305,31 +300,28 @@ namespace AnalisisNumerico2026.Controllers
                     return View("Index", model);
                 }
 
-                // Criterio de corte
+                // Criterio de paro
                 if (Math.Abs(fXr) < tolerancia ||
                     error < tolerancia)
                 {
                     model.Raiz = xr;
 
-                    if (error == double.MaxValue)
-                    {
-                        model.Error = 0;
-                    }
-                    else
-                    {
-                        model.Error = error;
-                    }
+                    model.Error =
+                        error == double.MaxValue
+                        ? 0
+                        : error;
 
                     model.IteracionesRealizadas = i;
+
                     model.Converge = true;
 
                     return View("Index", model);
                 }
 
-                // Actualizar intervalo
                 fXi =
                     calculo.EvaluaFx(xi);
 
+                // Mover extremos
                 if (fXi * fXr > 0)
                 {
                     xi = xr;
@@ -342,17 +334,12 @@ namespace AnalisisNumerico2026.Controllers
                 xrAnterior = xr;
             }
 
-            // Superó las iteraciones
             model.Raiz = xr;
 
-            if (error == double.MaxValue)
-            {
-                model.Error = null;
-            }
-            else
-            {
-                model.Error = error;
-            }
+            model.Error =
+                error == double.MaxValue
+                ? null
+                : (double?)error;
 
             model.IteracionesRealizadas =
                 iteraciones;
@@ -384,8 +371,27 @@ namespace AnalisisNumerico2026.Controllers
                 double fx =
                     calculo.EvaluaFx(xAnterior);
 
+                // Si el punto inicial ya es raíz
+                if (Math.Abs(fx) < tolerancia)
+                {
+                    model.Raiz =
+                        xAnterior;
+
+                    model.Error =
+                        0;
+
+                    model.IteracionesRealizadas =
+                        i - 1;
+
+                    model.Converge =
+                        true;
+
+                    return View("Index", model);
+                }
+
+                // Calcular derivada numérica
                 double derivada =
-                    CalcularDerivada(
+                    DerivadaNumerica(
                         calculo,
                         xAnterior
                     );
@@ -395,39 +401,65 @@ namespace AnalisisNumerico2026.Controllers
                     !EsNumeroValido(derivada))
                 {
                     model.MensajeError =
-                        "La función o su derivada no pueden evaluarse en el valor actual.";
+                        "Newton-Raphson no puede continuar porque la función o la derivada no están definidas en el punto actual.";
 
+                    model.Raiz = null;
+                    model.Error = null;
+                    model.IteracionesRealizadas = i - 1;
                     model.Converge = false;
 
                     return View("Index", model);
                 }
 
-                // Derivada igual a cero
-                if (Math.Abs(derivada) <
-                    0.000000000001)
+                /*
+                 * Si la derivada numérica es extremadamente grande,
+                 * puede indicar que la derivada no está definida.
+                 *
+                 * Esto ocurre en el ejercicio con:
+                 * cbrt(x-2)-0.7*x+2
+                 * X0 = 2
+                 */
+                if (Math.Abs(derivada) > 1000)
+                {
+                    model.MensajeError =
+                        "Newton-Raphson no puede continuar porque la derivada no está definida en el punto actual.";
+
+                    model.Raiz = null;
+                    model.Error = null;
+                    model.IteracionesRealizadas = i - 1;
+                    model.Converge = false;
+
+                    return View("Index", model);
+                }
+
+                // Derivada cero o muy cercana a cero
+                if (Math.Abs(derivada) < 0.000000000001)
                 {
                     model.MensajeError =
                         "Newton-Raphson no puede continuar porque la derivada es cero o muy cercana a cero.";
 
+                    model.Raiz = null;
+                    model.Error = null;
+                    model.IteracionesRealizadas = i - 1;
                     model.Converge = false;
-
-                    model.IteracionesRealizadas =
-                        i - 1;
 
                     return View("Index", model);
                 }
 
-                // Fórmula de Newton-Raphson
+                // Fórmula Newton-Raphson
                 xActual =
                     xAnterior -
                     (fx / derivada);
 
-                // Validar nuevo valor
+                // Validar resultado
                 if (!EsNumeroValido(xActual))
                 {
                     model.MensajeError =
-                        "El método produjo un resultado numérico inválido.";
+                        "Newton-Raphson produjo un resultado numérico inválido.";
 
+                    model.Raiz = null;
+                    model.Error = null;
+                    model.IteracionesRealizadas = i;
                     model.Converge = false;
 
                     return View("Index", model);
@@ -453,20 +485,32 @@ namespace AnalisisNumerico2026.Controllers
                 double fActual =
                     calculo.EvaluaFx(xActual);
 
-                // Validar función
                 if (!EsNumeroValido(fActual))
                 {
                     model.MensajeError =
                         "La función no puede evaluarse en el valor obtenido.";
 
+                    model.Raiz = null;
+                    model.Error = null;
+                    model.IteracionesRealizadas = i;
                     model.Converge = false;
 
                     return View("Index", model);
                 }
 
-                // Criterio de corte
-                if (Math.Abs(fActual) < tolerancia ||
-                    error < tolerancia)
+                /*
+                 * IMPORTANTE:
+                 *
+                 * No aceptamos solamente:
+                 * error < tolerancia
+                 *
+                 * porque X puede cambiar muy poco
+                 * y aun así NO ser una raíz.
+                 *
+                 * Para aceptar la raíz exigimos
+                 * que f(x) sea cercana a cero.
+                 */
+                if (Math.Abs(fActual) < tolerancia)
                 {
                     model.Raiz =
                         xActual;
@@ -487,9 +531,8 @@ namespace AnalisisNumerico2026.Controllers
                     xActual;
             }
 
-            // Superó las iteraciones
-            model.Raiz =
-                xActual;
+            // No convergió
+            model.Raiz = null;
 
             model.Error =
                 error;
@@ -499,6 +542,9 @@ namespace AnalisisNumerico2026.Controllers
 
             model.Converge =
                 false;
+
+            model.MensajeError =
+                "Newton-Raphson alcanzó el máximo de iteraciones sin encontrar una raíz.";
 
             return View("Index", model);
         }
@@ -531,7 +577,6 @@ namespace AnalisisNumerico2026.Controllers
                 double fActual =
                     calculo.EvaluaFx(xActual);
 
-                // Validar función
                 if (!EsNumeroValido(fAnterior) ||
                     !EsNumeroValido(fActual))
                 {
@@ -546,22 +591,22 @@ namespace AnalisisNumerico2026.Controllers
                 double denominador =
                     fActual - fAnterior;
 
-                // Evitar división por cero
+                // División por cero
                 if (Math.Abs(denominador) <
                     0.000000000001)
                 {
                     model.MensajeError =
                         "El método de la Secante no puede continuar porque f(X1) - f(X0) es cero o muy cercano a cero.";
 
+                    model.Raiz = null;
+                    model.Error = null;
+                    model.IteracionesRealizadas = i - 1;
                     model.Converge = false;
-
-                    model.IteracionesRealizadas =
-                        i - 1;
 
                     return View("Index", model);
                 }
 
-                // Fórmula de la Secante
+                // Fórmula Secante
                 xNuevo =
                     xActual -
                     (
@@ -570,12 +615,12 @@ namespace AnalisisNumerico2026.Controllers
                     )
                     / denominador;
 
-                // Validar nuevo valor
                 if (!EsNumeroValido(xNuevo))
                 {
                     model.MensajeError =
                         "El método produjo un resultado numérico inválido.";
 
+                    model.Raiz = null;
                     model.Converge = false;
 
                     return View("Index", model);
@@ -601,7 +646,6 @@ namespace AnalisisNumerico2026.Controllers
                 double fNuevo =
                     calculo.EvaluaFx(xNuevo);
 
-                // Validar función
                 if (!EsNumeroValido(fNuevo))
                 {
                     model.MensajeError =
@@ -612,7 +656,7 @@ namespace AnalisisNumerico2026.Controllers
                     return View("Index", model);
                 }
 
-                // Criterio de corte
+                // Criterio de paro
                 if (Math.Abs(fNuevo) < tolerancia ||
                     error < tolerancia)
                 {
@@ -631,7 +675,6 @@ namespace AnalisisNumerico2026.Controllers
                     return View("Index", model);
                 }
 
-                // Avanzar
                 xAnterior =
                     xActual;
 
@@ -639,7 +682,6 @@ namespace AnalisisNumerico2026.Controllers
                     xNuevo;
             }
 
-            // Superó las iteraciones
             model.Raiz =
                 xNuevo;
 
@@ -655,26 +697,22 @@ namespace AnalisisNumerico2026.Controllers
             return View("Index", model);
         }
 
-        // Calcular derivada numérica
-        private double CalcularDerivada(
+        // Derivada numérica
+        private double DerivadaNumerica(
             Calculo calculo,
             double x)
         {
-            double h =
+            const double h =
                 0.000001;
 
-            double fxMasH =
-                calculo.EvaluaFx(
-                    x + h
-                );
+            double fDerecha =
+                calculo.EvaluaFx(x + h);
 
-            double fxMenosH =
-                calculo.EvaluaFx(
-                    x - h
-                );
+            double fIzquierda =
+                calculo.EvaluaFx(x - h);
 
             return
-                (fxMasH - fxMenosH)
+                (fDerecha - fIzquierda)
                 / (2 * h);
         }
 

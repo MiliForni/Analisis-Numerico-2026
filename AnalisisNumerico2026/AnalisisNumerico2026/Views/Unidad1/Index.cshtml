@@ -10,18 +10,18 @@
     }
 
     .pagina-unidad {
-        max-width: 1350px;
-        margin: 30px auto;
-        padding: 0 20px;
+        max-width: 1400px;
+        margin: 10px auto;
+        padding: 0 15px 20px;
         font-family: Arial, sans-serif;
     }
 
     .volver {
         display: inline-block;
-        margin-bottom: 18px;
+        margin-bottom: 6px;
         color: #666666;
         text-decoration: none;
-        font-size: 14px;
+        font-size: 12px;
         font-weight: bold;
     }
 
@@ -31,137 +31,126 @@
         }
 
     .encabezado-unidad {
-        margin: 0 0 28px 0;
-        padding: 0;
+        margin: 0 0 15px 0;
         text-align: center;
     }
 
         .encabezado-unidad h1 {
-            margin: 0 0 5px 0;
-            padding: 0;
+            margin: 0 0 3px 0;
             color: #555555;
-            font-size: 34px;
+            font-size: 28px;
             font-weight: bold;
         }
 
         .encabezado-unidad p {
             margin: 0;
-            padding: 0;
             color: #777777;
-            font-size: 16px;
+            font-size: 14px;
         }
 
     .linea-titulo {
-        width: 60px;
-        height: 3px;
-        margin: 12px auto 0;
-        border-radius: 3px;
+        width: 55px;
+        height: 2px;
+        margin: 7px auto 0;
         background-color: #E889AE;
     }
 
-    /* Tres paneles al mismo nivel */
+    /* Tres columnas */
     .contenedor-paneles {
         display: grid;
-        grid-template-columns: 270px 1fr 270px;
-        gap: 20px;
+        grid-template-columns: 300px 1fr 300px;
+        gap: 18px;
         align-items: start;
-        margin: 0;
-        padding: 0;
     }
 
     .panel {
         margin: 0;
-        padding: 18px;
+        padding: 16px;
         border: 2px solid #E8A0BC;
-        border-radius: 6px;
+        border-radius: 5px;
         background-color: #FFFFFF;
         box-sizing: border-box;
-        align-self: start;
     }
 
-    .panel-ingreso {
-        margin-top: 0;
-        align-self: start;
-    }
-
-    .panel-grafico {
-        margin-top: 0;
-        padding: 25px;
-        align-self: start;
-    }
-
-    .panel-resultados {
-        margin-top: 0;
-        align-self: start;
-    }
-
-    .panel h2 {
-        margin: 0 0 18px 0;
-        padding: 0;
-        color: #555555;
-        text-align: center;
-        font-size: 20px;
-        font-weight: bold;
-        line-height: 1.2;
-    }
-
-    .panel-grafico h2 {
-        margin: 0 0 25px 0;
-        font-size: 22px;
-    }
-
-    .grupo-campo {
-        margin-bottom: 12px;
-    }
-
-        .grupo-campo label {
-            display: block;
-            margin-bottom: 5px;
+        .panel h2 {
+            margin: 0 0 18px 0;
             color: #555555;
-            font-size: 13px;
+            text-align: center;
+            font-size: 19px;
+            font-weight: bold;
+        }
+
+    /* Ingreso de datos */
+    .panel-ingreso {
+        height: auto;
+    }
+
+    .fila-campo {
+        display: grid;
+        grid-template-columns: 38% 62%;
+        align-items: center;
+        margin-bottom: 10px;
+        gap: 7px;
+    }
+
+        .fila-campo label {
+            margin: 0;
+            color: #555555;
+            font-size: 12px;
             font-weight: bold;
         }
 
     .campo {
         width: 100%;
-        padding: 8px 9px;
+        height: 32px;
+        padding: 5px 7px;
         border: 1px solid #BBBBBB;
         border-radius: 2px;
         background-color: #FFFFFF;
         color: #444444;
-        font-size: 14px;
+        font-size: 12px;
         box-sizing: border-box;
     }
 
         .campo:focus {
             outline: none;
             border-color: #E889AE;
-            box-shadow: 0 0 0 2px rgba(232, 137, 174, 0.15);
         }
 
-    .dos-columnas {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 10px;
+    .subtitulo-campo {
+        margin-top: 12px;
+        margin-bottom: 8px;
+        padding-bottom: 4px;
+        border-bottom: 1px solid #F1C0D3;
+        color: #666666;
+        font-size: 12px;
+        font-weight: bold;
     }
 
-    .subtitulo-campo {
-        margin-top: 15px;
-        margin-bottom: 9px;
-        color: #666666;
-        font-size: 13px;
+    .dos-valores {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 9px;
+        margin-bottom: 10px;
+    }
+
+    .campo-con-label label {
+        display: block;
+        margin-bottom: 3px;
+        color: #555555;
+        font-size: 11px;
         font-weight: bold;
     }
 
     .boton-calcular {
         width: 100%;
-        margin-top: 7px;
-        padding: 10px;
+        margin-top: 8px;
+        padding: 9px;
         border: none;
         border-radius: 2px;
         background-color: #E889AE;
         color: #FFFFFF;
-        font-size: 14px;
+        font-size: 12px;
         font-weight: bold;
         cursor: pointer;
         text-transform: uppercase;
@@ -171,36 +160,38 @@
             background-color: #DC789F;
         }
 
-    .mensaje-error {
-        margin-bottom: 20px;
-        padding: 12px 15px;
-        border-left: 5px solid #E889AE;
-        background-color: #FCE8F0;
-        color: #555555;
-    }
-
     .text-danger {
         display: block;
-        margin-top: 4px;
         color: #C45E83;
+        font-size: 10px;
+    }
+
+    .mensaje-error {
+        margin-bottom: 10px;
+        padding: 9px 12px;
+        border-left: 4px solid #E889AE;
+        background-color: #FCE8F0;
+        color: #555555;
         font-size: 12px;
     }
 
-    /* Gráfico - no modificar tamaño */
+    /* Gráfico */
+    .panel-grafico {
+        padding: 16px;
+    }
+
     .contenedor-geogebra {
         width: 100%;
         display: flex;
         justify-content: center;
-        align-items: flex-start;
     }
 
     #ggb-element {
-        width: 590px;
-        height: 520px;
+        width: 570px;
+        height: 500px;
         margin: 0 auto;
         overflow: hidden;
         border: 1px solid #E8A0BC;
-        border-radius: 3px;
         background-color: white;
     }
 
@@ -209,25 +200,34 @@
         }
 
     /* Resultados */
+    .panel-resultados {
+        height: auto;
+    }
+
     .fila-resultado {
-        margin-bottom: 9px;
+        display: grid;
+        grid-template-columns: 44% 56%;
+        align-items: center;
+        gap: 6px;
+        margin-bottom: 8px;
     }
 
         .fila-resultado label {
-            display: block;
-            margin-bottom: 4px;
+            margin: 0;
             color: #555555;
-            font-size: 13px;
+            font-size: 11px;
             font-weight: bold;
+            line-height: 1.2;
         }
 
     .valor-resultado {
-        min-height: 32px;
-        padding: 7px 9px;
-        border-bottom: 1px solid #E8A0BC;
+        min-height: 30px;
+        padding: 6px 7px;
+        border: 1px solid #F1C0D3;
         background-color: #FFF8FB;
         color: #555555;
-        font-size: 14px;
+        font-size: 11px;
+        line-height: 16px;
         box-sizing: border-box;
         word-break: break-word;
     }
@@ -244,7 +244,7 @@
 
         #ggb-element {
             width: 100%;
-            max-width: 590px;
+            max-width: 570px;
         }
     }
 </style>
@@ -258,13 +258,9 @@
 
     <header class="encabezado-unidad">
 
-        <h1>
-            Análisis Numérico
-        </h1>
+        <h1>Análisis Numérico</h1>
 
-        <p>
-            Unidad 1 - Raíces de funciones
-        </p>
+        <p>Unidad 1 - Raíces de funciones</p>
 
         <div class="linea-titulo"></div>
 
@@ -282,16 +278,14 @@
         <!-- Ingreso de datos -->
         <section class="panel panel-ingreso">
 
-            <h2>
-                Ingreso de datos
-            </h2>
+            <h2>Ingreso de datos</h2>
 
             @using (Html.BeginForm("Index", "Unidad1", FormMethod.Post))
             {
                 @Html.AntiForgeryToken()
 
                 // Función
-                <div class="grupo-campo">
+                <div class="fila-campo">
 
                     @Html.LabelFor(m => m.Funcion)
 
@@ -300,18 +294,18 @@
                         new
                         {
                             @class = "campo",
-                            placeholder = "Ejemplo: x^2 - 2"
+                            placeholder = "Ej: x^2 - 2"
                         })
-
-                    @Html.ValidationMessageFor(
-                        m => m.Funcion,
-                        "",
-                        new { @class = "text-danger" })
 
                 </div>
 
+                @Html.ValidationMessageFor(
+                    m => m.Funcion,
+                    "",
+                    new { @class = "text-danger" })
+
                 // Método
-                <div class="grupo-campo">
+                <div class="fila-campo">
 
                     @Html.LabelFor(m => m.Metodo)
 
@@ -321,7 +315,7 @@
                         {
                             new SelectListItem
                             {
-                                Text = "Seleccione un método",
+                                Text = "Seleccione",
                                 Value = ""
                             },
 
@@ -355,15 +349,10 @@
                             id = "Metodo"
                         })
 
-                    @Html.ValidationMessageFor(
-                        m => m.Metodo,
-                        "",
-                        new { @class = "text-danger" })
-
                 </div>
 
                 // Iteraciones
-                <div class="grupo-campo">
+                <div class="fila-campo">
 
                     @Html.LabelFor(m => m.Iteraciones)
 
@@ -374,18 +363,13 @@
                             @class = "campo",
                             type = "number",
                             min = "1",
-                            placeholder = "Ejemplo: 100"
+                            placeholder = "100"
                         })
-
-                    @Html.ValidationMessageFor(
-                        m => m.Iteraciones,
-                        "",
-                        new { @class = "text-danger" })
 
                 </div>
 
                 // Tolerancia
-                <div class="grupo-campo">
+                <div class="fila-campo">
 
                     @Html.LabelFor(m => m.Tolerancia)
 
@@ -394,13 +378,8 @@
                         new
                         {
                             @class = "campo",
-                            placeholder = "Ejemplo: 0.0001"
+                            placeholder = "0.0001"
                         })
-
-                    @Html.ValidationMessageFor(
-                        m => m.Tolerancia,
-                        "",
-                        new { @class = "text-danger" })
 
                 </div>
 
@@ -412,9 +391,9 @@
                         Intervalo
                     </div>
 
-                    <div class="dos-columnas">
+                    <div class="dos-valores">
 
-                        <div class="grupo-campo">
+                        <div class="campo-con-label">
 
                             @Html.LabelFor(m => m.Xi)
 
@@ -428,7 +407,7 @@
 
                         </div>
 
-                        <div class="grupo-campo">
+                        <div class="campo-con-label">
 
                             @Html.LabelFor(m => m.Xd)
 
@@ -452,15 +431,13 @@
 
                     <div class="subtitulo-campo"
                          id="tituloValoresIniciales">
-
                         Valores iniciales
-
                     </div>
 
-                    <div class="dos-columnas"
+                    <div class="dos-valores"
                          id="contenedorValoresAbiertos">
 
-                        <div class="grupo-campo"
+                        <div class="campo-con-label"
                              id="campoX0">
 
                             @Html.LabelFor(m => m.X0)
@@ -475,7 +452,7 @@
 
                         </div>
 
-                        <div class="grupo-campo"
+                        <div class="campo-con-label"
                              id="campoX1">
 
                             @Html.LabelFor(m => m.X1)
@@ -494,14 +471,14 @@
 
                 </div>
 
-                // Escala del gráfico
+                // Escala
                 <div class="subtitulo-campo">
                     Escala del gráfico
                 </div>
 
-                <div class="dos-columnas">
+                <div class="dos-valores">
 
-                    <div class="grupo-campo">
+                    <div class="campo-con-label">
 
                         @Html.LabelFor(m => m.XMin)
 
@@ -509,13 +486,12 @@
                             m => m.XMin,
                             new
                             {
-                                @class = "campo",
-                                placeholder = "-5"
+                                @class = "campo"
                             })
 
                     </div>
 
-                    <div class="grupo-campo">
+                    <div class="campo-con-label">
 
                         @Html.LabelFor(m => m.XMax)
 
@@ -523,8 +499,7 @@
                             m => m.XMax,
                             new
                             {
-                                @class = "campo",
-                                placeholder = "5"
+                                @class = "campo"
                             })
 
                     </div>
@@ -533,9 +508,7 @@
 
                 <button type="submit"
                         class="boton-calcular">
-
                     Calcular
-
                 </button>
             }
 
@@ -544,9 +517,7 @@
         <!-- Gráfico -->
         <section class="panel panel-grafico">
 
-            <h2>
-                Gráfico
-            </h2>
+            <h2>Gráfico</h2>
 
             <div class="contenedor-geogebra">
 
@@ -559,15 +530,11 @@
         <!-- Resultados -->
         <section class="panel panel-resultados">
 
-            <h2>
-                Resultados
-            </h2>
+            <h2>Resultados</h2>
 
             <div class="fila-resultado">
 
-                <label>
-                    Función utilizada
-                </label>
+                <label>Función utilizada</label>
 
                 <div class="valor-resultado">
 
@@ -586,9 +553,7 @@
 
             <div class="fila-resultado">
 
-                <label>
-                    Método utilizado
-                </label>
+                <label>Método utilizado</label>
 
                 <div class="valor-resultado">
 
@@ -619,9 +584,7 @@
 
             <div class="fila-resultado">
 
-                <label>
-                    Iteraciones realizadas
-                </label>
+                <label>Iteraciones</label>
 
                 <div class="valor-resultado">
 
@@ -640,9 +603,7 @@
 
             <div class="fila-resultado">
 
-                <label>
-                    Tolerancia utilizada
-                </label>
+                <label>Tolerancia</label>
 
                 <div class="valor-resultado">
 
@@ -661,9 +622,7 @@
 
             <div class="fila-resultado">
 
-                <label>
-                    Valores iniciales
-                </label>
+                <label>Valores iniciales</label>
 
                 <div class="valor-resultado">
 
@@ -722,9 +681,7 @@
 
             <div class="fila-resultado">
 
-                <label>
-                    ¿Converge?
-                </label>
+                <label>¿Converge?</label>
 
                 <div class="valor-resultado">
 
@@ -750,9 +707,7 @@
 
             <div class="fila-resultado">
 
-                <label>
-                    Raíz
-                </label>
+                <label>Raíz</label>
 
                 <div class="valor-resultado resultado-raiz">
 
@@ -771,15 +726,16 @@
 
             <div class="fila-resultado">
 
-                <label>
-                    Error
-                </label>
+                <label>Error</label>
 
                 <div class="valor-resultado">
 
                     @if (Model.Error.HasValue)
                     {
-                        @Model.Error.Value
+                        @Model.Error.Value.ToString(
+                            "0.0000000000",
+                            new System.Globalization.CultureInfo("es-AR")
+                        )
                     }
                     else
                     {
@@ -806,8 +762,8 @@
         "appName": "classic",
         "perspective": "G",
 
-        "width": 590,
-        "height": 520,
+        "width": 570,
+        "height": 500,
 
         "showToolBar": false,
         "showAlgebraInput": false,
