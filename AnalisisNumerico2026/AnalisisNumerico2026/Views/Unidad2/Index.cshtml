@@ -1,0 +1,943 @@
+﻿@model AnalisisNumerico2026.Models.Unidad2ViewModel
+
+@{
+    ViewBag.Title = "Unidad 2 - Sistemas de ecuaciones";
+
+    int dimension = Model.Dimension ?? 3;
+
+    var coeficientes =
+        Model.Coeficientes ?? new double[dimension * dimension];
+
+    var terminos =
+        Model.TerminosIndependientes ?? new double[dimension];
+}
+
+<style>
+    body {
+        background-color: #FFFFFF;
+    }
+
+    .pagina-unidad {
+        max-width: 1400px;
+        margin: 10px auto;
+        padding: 0 15px 20px;
+        font-family: Arial, sans-serif;
+        color: #555;
+    }
+
+    .volver {
+        margin-bottom: 10px;
+    }
+
+        .volver a {
+            color: #555;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+            .volver a:hover {
+                color: #E889AE;
+                text-decoration: none;
+            }
+
+    .encabezado-unidad {
+        margin: 0 0 15px;
+        text-align: center;
+    }
+
+        .encabezado-unidad h1 {
+            margin: 0;
+            color: #555;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .encabezado-unidad p {
+            margin: 5px 0 0;
+            color: #777;
+            font-size: 15px;
+        }
+
+    .linea-titulo {
+        width: 60px;
+        height: 2px;
+        margin: 10px auto 0;
+        background-color: #E889AE;
+    }
+
+    .mensaje-error {
+        margin-bottom: 12px;
+        padding: 10px 12px;
+        border-left: 4px solid #E889AE;
+        background-color: #FCE8F0;
+        color: #555;
+        font-size: 13px;
+    }
+
+    .contenedor-paneles {
+        display: grid;
+        grid-template-columns: 1fr 320px;
+        gap: 18px;
+        align-items: start;
+    }
+
+    .panel {
+        margin: 0;
+        padding: 16px;
+        border: 2px solid #E8A0BC;
+        border-radius: 5px;
+        background: #FFF;
+        box-sizing: border-box;
+    }
+
+        .panel h2 {
+            margin: 0 0 18px;
+            color: #555;
+            text-align: center;
+            font-size: 19px;
+        }
+
+    .fila-superior {
+        display: grid;
+        grid-template-columns: 160px 220px 120px;
+        gap: 12px;
+        align-items: end;
+        justify-content: center;
+        margin-bottom: 15px;
+    }
+
+    .grupo-campo label {
+        display: block;
+        margin-bottom: 5px;
+        font-size: 13px;
+        font-weight: bold;
+        color: #555;
+    }
+
+    .campo {
+        width: 100%;
+        height: 32px;
+        padding: 5px 7px;
+        border: 1px solid #BBBBBB;
+        border-radius: 2px;
+        box-sizing: border-box;
+        color: #555;
+        background-color: #FFF;
+    }
+
+        .campo:focus {
+            outline: none;
+            border-color: #E889AE;
+        }
+
+    .texto-validacion {
+        display: block;
+        margin-top: 4px;
+        color: #C94E7E;
+        font-size: 12px;
+    }
+
+    .subtitulo {
+        margin-top: 12px;
+        margin-bottom: 8px;
+        padding-bottom: 4px;
+        border-bottom: 1px solid #F1C0D3;
+        color: #555;
+        font-weight: bold;
+        font-size: 14px;
+    }
+
+    .opciones-seidel {
+        display: none;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-bottom: 12px;
+    }
+
+    .contenedor-matriz {
+        overflow-x: auto;
+        padding: 5px 0 10px;
+    }
+
+    .matriz {
+        margin: 0 auto;
+        border-collapse: separate;
+        border-spacing: 7px;
+    }
+
+        .matriz th {
+            color: #555;
+            font-size: 13px;
+            text-align: center;
+            min-width: 65px;
+        }
+
+        .matriz td {
+            text-align: center;
+        }
+
+    .campo-matriz {
+        width: 70px;
+        height: 32px;
+        padding: 5px;
+        border: 1px solid #BBBBBB;
+        border-radius: 2px;
+        text-align: center;
+        color: #555;
+        box-sizing: border-box;
+    }
+
+        .campo-matriz:focus {
+            outline: none;
+            border-color: #E889AE;
+        }
+
+    .igual {
+        color: #555;
+        font-weight: bold;
+        padding: 0 4px;
+    }
+
+    .acciones {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 8px;
+    }
+
+    .boton {
+        border: none;
+        border-radius: 2px;
+        padding: 9px 16px;
+        font-size: 13px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .boton-generar {
+        background-color: #E889AE;
+        color: #FFF;
+    }
+
+        .boton-generar:hover {
+            background-color: #DE7CA4;
+        }
+
+    .boton-calcular {
+        background-color: #E889AE;
+        color: #FFF;
+        min-width: 130px;
+    }
+
+        .boton-calcular:hover {
+            background-color: #DE7CA4;
+        }
+
+    .boton-limpiar {
+        background-color: #FFF;
+        color: #555;
+        border: 1px solid #BBBBBB;
+        min-width: 130px;
+    }
+
+        .boton-limpiar:hover {
+            background-color: #F5F5F5;
+        }
+
+    .fila-resultado {
+        display: grid;
+        grid-template-columns: 44% 56%;
+        align-items: center;
+        gap: 6px;
+        margin-bottom: 8px;
+    }
+
+    .etiqueta-resultado {
+        font-size: 13px;
+        font-weight: bold;
+        color: #555;
+    }
+
+    .valor-resultado {
+        min-height: 30px;
+        padding: 6px 7px;
+        border: 1px solid #F1C0D3;
+        background: #FFF8FB;
+        color: #555;
+        box-sizing: border-box;
+        word-break: break-word;
+    }
+
+    .titulo-solucion {
+        margin-top: 12px;
+        margin-bottom: 8px;
+        padding-bottom: 4px;
+        border-bottom: 1px solid #F1C0D3;
+        color: #555;
+        font-weight: bold;
+        font-size: 14px;
+    }
+
+    .solucion-variable {
+        display: grid;
+        grid-template-columns: 40px 15px 1fr;
+        align-items: center;
+        margin-bottom: 8px;
+    }
+
+        .solucion-variable span {
+            font-weight: bold;
+            color: #555;
+            text-align: center;
+        }
+
+    .resultado-variable {
+        min-height: 30px;
+        padding: 6px 7px;
+        border: 1px solid #F1C0D3;
+        background: #FFF8FB;
+        color: #555;
+        box-sizing: border-box;
+    }
+
+    .sin-resultado {
+        color: #777;
+        font-size: 13px;
+        text-align: center;
+        padding: 10px;
+    }
+
+    @@media (max-width: 1050px) {
+        .contenedor-paneles {
+            grid-template-columns: 1fr;
+        }
+
+        .fila-superior {
+            grid-template-columns: 1fr;
+        }
+
+        .opciones-seidel {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<div class="pagina-unidad">
+
+    <div class="volver">
+        @Html.ActionLink(
+            "← Volver al menú principal",
+            "Index",
+            "Home"
+        )
+    </div>
+
+    <div class="encabezado-unidad">
+        <h1>Análisis Numérico</h1>
+        <p>Unidad 2 - Sistemas de ecuaciones</p>
+        <div class="linea-titulo"></div>
+    </div>
+
+    @if (!string.IsNullOrEmpty(Model.MensajeError))
+    {
+        <div class="mensaje-error">
+            @Model.MensajeError
+        </div>
+    }
+
+    @using (Html.BeginForm(
+        "Index",
+        "Unidad2",
+        FormMethod.Post,
+        new { id = "formUnidad2" }))
+    {
+        <div class="contenedor-paneles">
+
+            <!-- INGRESO DE DATOS -->
+            <div class="panel">
+
+                <h2>Ingreso de datos</h2>
+
+                <div class="fila-superior">
+
+                    <div class="grupo-campo">
+
+                        <label>Dimensión</label>
+
+                        @Html.TextBoxFor(
+                            m => m.Dimension,
+                            new
+                            {
+                                @class = "campo",
+                                id = "dimension",
+                                type = "number",
+                                min = "2",
+                                max = "10"
+                            }
+                        )
+
+                        @Html.ValidationMessageFor(
+                            m => m.Dimension,
+                            "",
+                            new
+                            {
+                                @class = "texto-validacion"
+                            }
+                        )
+
+                    </div>
+
+                    <div class="grupo-campo">
+
+                        <label>Método</label>
+
+                        @Html.DropDownListFor(
+                            m => m.Metodo,
+                            new List<SelectListItem>
+                            {
+                                new SelectListItem
+                                {
+                                    Text = "Gauss-Jordan",
+                                    Value = "Gauss-Jordan"
+                                },
+
+                                new SelectListItem
+                                {
+                                    Text = "Gauss-Seidel",
+                                    Value = "Gauss-Seidel"
+                                }
+                            },
+                            new
+                            {
+                                @class = "campo",
+                                id = "metodo"
+                            }
+                        )
+
+                    </div>
+
+                    <button type="button"
+                            class="boton boton-generar"
+                            onclick="generarMatriz()">
+                        GENERAR
+                    </button>
+
+                </div>
+
+                <!-- OPCIONES GAUSS-SEIDEL -->
+                <div id="opcionesSeidel"
+                     class="opciones-seidel">
+
+                    <div class="grupo-campo">
+
+                        <label>Iteraciones</label>
+
+                        @Html.TextBoxFor(
+                            m => m.Iteraciones,
+                            new
+                            {
+                                @class = "campo",
+                                type = "number",
+                                min = "1"
+                            }
+                        )
+
+                    </div>
+
+                    <div class="grupo-campo">
+
+                        <label>Tolerancia</label>
+
+                        @Html.TextBoxFor(
+                            m => m.Tolerancia,
+                            new
+                            {
+                                @class = "campo",
+                                type = "number",
+                                step = "any"
+                            }
+                        )
+
+                    </div>
+
+                </div>
+
+                <div class="subtitulo">
+                    Sistema de ecuaciones
+                </div>
+
+                <div class="contenedor-matriz">
+
+                    <table class="matriz"
+                           id="tablaMatriz">
+
+                        <thead>
+
+                            <tr id="encabezadoMatriz">
+
+                                @for (int columna = 0;
+                                    columna < dimension;
+                                    columna++)
+                                {
+                                    <th>
+                                        X@(columna + 1)
+                                    </th>
+                                }
+
+                                <th></th>
+
+                                <th>TI</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody id="cuerpoMatriz">
+
+                            @{
+                                int posicion = 0;
+                            }
+
+                            @for (int fila = 0;
+                                fila < dimension;
+                                fila++)
+                            {
+                                <tr>
+
+                                    @for (int columna = 0;
+                                        columna < dimension;
+                                        columna++)
+                                    {
+                                        <td>
+
+                                            <input type="number"
+                                                   step="any"
+                                                   class="campo-matriz"
+                                                   name="Coeficientes"
+                                                   value="@coeficientes[posicion].ToString(System.Globalization.CultureInfo.InvariantCulture)" />
+
+                                        </td>
+
+                                        posicion++;
+                                    }
+
+                                    <td class="igual">
+                                        =
+                                    </td>
+
+                                    <td>
+
+                                        <input type="number"
+                                               step="any"
+                                               class="campo-matriz"
+                                               name="TerminosIndependientes"
+                                               value="@terminos[fila].ToString(System.Globalization.CultureInfo.InvariantCulture)" />
+
+                                    </td>
+
+                                </tr>
+                            }
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+                <div class="acciones">
+
+                    <button type="submit"
+                            class="boton boton-calcular">
+                        CALCULAR
+                    </button>
+
+                    <button type="button"
+                            class="boton boton-limpiar"
+                            onclick="limpiarFormulario()">
+                        LIMPIAR
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- RESULTADOS -->
+            <div class="panel">
+
+                <h2>Resultados</h2>
+
+                <div class="fila-resultado">
+
+                    <div class="etiqueta-resultado">
+                        Método utilizado
+                    </div>
+
+                    <div class="valor-resultado">
+
+                        @(string.IsNullOrEmpty(Model.Metodo)
+                            ? "—"
+                            : Model.Metodo)
+
+                    </div>
+
+                </div>
+
+
+                <div class="fila-resultado">
+
+                    <div class="etiqueta-resultado">
+                        Dimensión
+                    </div>
+
+                    <div class="valor-resultado">
+
+                        @if (Model.Dimension.HasValue)
+                        {
+                            <text>
+                                @Model.Dimension.Value x @Model.Dimension.Value
+                            </text>
+                        }
+                        else
+                        {
+                            <text>—</text>
+                        }
+
+                    </div>
+
+                </div>
+
+
+                <div class="fila-resultado">
+
+                    <div class="etiqueta-resultado">
+                        ¿Converge?
+                    </div>
+
+                    <div class="valor-resultado">
+
+                        @if (Model.Converge.HasValue)
+                        {
+                            @(Model.Converge.Value ? "Sí" : "No")
+                        }
+                        else
+                        {
+                            <text>—</text>
+                        }
+
+                    </div>
+
+                </div>
+
+
+                @if (Model.Metodo == "Gauss-Seidel")
+                {
+                    <div class="fila-resultado">
+
+                        <div class="etiqueta-resultado">
+                            Iteraciones
+                        </div>
+
+                        <div class="valor-resultado">
+
+                            @(Model.IteracionesRealizadas.HasValue
+                                ? Model.IteracionesRealizadas.Value.ToString()
+                                : "—")
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="fila-resultado">
+
+                        <div class="etiqueta-resultado">
+                            Error
+                        </div>
+
+                        <div class="valor-resultado">
+
+                            @(Model.Error.HasValue
+                                ? Model.Error.Value.ToString(
+                                    "0.0000000000",
+                                    new System.Globalization.CultureInfo("es-AR"))
+                                : "—")
+
+                        </div>
+
+                    </div>
+                }
+
+
+                <div class="titulo-solucion">
+                    Solución
+                </div>
+
+
+                @if (Model.Solucion != null &&
+                     Model.Solucion.Length > 0)
+                {
+                    for (int i = 0;
+                         i < Model.Solucion.Length;
+                         i++)
+                    {
+                        <div class="solucion-variable">
+
+                            <span>
+                                X@(i + 1)
+                            </span>
+
+                            <span>
+                                =
+                            </span>
+
+                            <div class="resultado-variable">
+
+                                @Model.Solucion[i].ToString(
+                                    "0.##########",
+                                    new System.Globalization.CultureInfo("es-AR")
+                                )
+
+                            </div>
+
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="sin-resultado">
+                        Todavía no se realizó ningún cálculo.
+                    </div>
+                }
+
+            </div>
+
+        </div>
+    }
+
+</div>
+
+
+<script>
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+
+            actualizarCamposMetodo();
+
+            document
+                .getElementById("metodo")
+                .addEventListener(
+                    "change",
+                    actualizarCamposMetodo
+                );
+
+        }
+    );
+
+
+    function actualizarCamposMetodo() {
+
+        var metodo =
+            document.getElementById("metodo").value;
+
+        var opciones =
+            document.getElementById("opcionesSeidel");
+
+
+        if (metodo === "Gauss-Seidel") {
+
+            opciones.style.display = "grid";
+        }
+        else {
+
+            opciones.style.display = "none";
+        }
+
+    }
+
+
+    function generarMatriz() {
+
+        var dimension =
+            parseInt(
+                document
+                    .getElementById("dimension")
+                    .value
+            );
+
+
+        if (isNaN(dimension) ||
+            dimension < 2 ||
+            dimension > 10) {
+
+            alert(
+                "La dimensión debe estar entre 2 y 10."
+            );
+
+            return;
+        }
+
+
+        var encabezado =
+            document.getElementById(
+                "encabezadoMatriz"
+            );
+
+        var cuerpo =
+            document.getElementById(
+                "cuerpoMatriz"
+            );
+
+
+        encabezado.innerHTML = "";
+
+        cuerpo.innerHTML = "";
+
+
+        // Encabezados X1, X2, X3...
+        for (var columna = 0;
+            columna < dimension;
+            columna++) {
+
+            var th =
+                document.createElement("th");
+
+            th.innerText =
+                "X" + (columna + 1);
+
+            encabezado.appendChild(th);
+        }
+
+
+        var thIgual =
+            document.createElement("th");
+
+        encabezado.appendChild(thIgual);
+
+
+        var thTI =
+            document.createElement("th");
+
+        thTI.innerText = "TI";
+
+        encabezado.appendChild(thTI);
+
+
+        // Filas de la matriz
+        for (var fila = 0;
+            fila < dimension;
+            fila++) {
+
+            var tr =
+                document.createElement("tr");
+
+
+            for (var columna = 0;
+                columna < dimension;
+                columna++) {
+
+                var td =
+                    document.createElement("td");
+
+                var input =
+                    document.createElement("input");
+
+
+                input.type = "number";
+
+                input.step = "any";
+
+                input.name =
+                    "Coeficientes";
+
+                input.value = "0";
+
+                input.className =
+                    "campo-matriz";
+
+
+                td.appendChild(input);
+
+                tr.appendChild(td);
+            }
+
+
+            var tdIgual =
+                document.createElement("td");
+
+            tdIgual.innerText = "=";
+
+            tdIgual.className =
+                "igual";
+
+            tr.appendChild(tdIgual);
+
+
+            var tdTI =
+                document.createElement("td");
+
+            var inputTI =
+                document.createElement("input");
+
+
+            inputTI.type =
+                "number";
+
+            inputTI.step =
+                "any";
+
+            inputTI.name =
+                "TerminosIndependientes";
+
+            inputTI.value =
+                "0";
+
+            inputTI.className =
+                "campo-matriz";
+
+
+            tdTI.appendChild(inputTI);
+
+            tr.appendChild(tdTI);
+
+
+            cuerpo.appendChild(tr);
+        }
+
+    }
+
+
+    function limpiarFormulario() {
+
+        var coeficientes =
+            document.getElementsByName(
+                "Coeficientes"
+            );
+
+        var terminos =
+            document.getElementsByName(
+                "TerminosIndependientes"
+            );
+
+
+        for (var i = 0;
+            i < coeficientes.length;
+            i++) {
+
+            coeficientes[i].value = "0";
+        }
+
+
+        for (var i = 0;
+            i < terminos.length;
+            i++) {
+
+            terminos[i].value = "0";
+        }
+
+    }
+
+</script>

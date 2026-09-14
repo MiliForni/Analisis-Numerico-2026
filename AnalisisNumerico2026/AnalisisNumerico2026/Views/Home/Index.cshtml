@@ -175,26 +175,27 @@
                 if (tarjetaUnidad1) {
 
                     tarjetaUnidad1.innerHTML = `
-                                <div class="formula-unidad">
-                                    f(x)
-                                </div>
+                                                <div class="formula-unidad">
+                                                    f(x)
+                                                </div>
 
-                                <div class="separador-unidad"></div>
+                                                <div class="separador-unidad"></div>
 
-                                <h2>
-                                    Unidad 1
-                                </h2>
+                                                <h2>
+                                                    Unidad 1
+                                                </h2>
 
-                                <p>
-                                    Raíces de funciones
-                                </p>
-                            `;
+                                                <p>
+                                                    Raíces de funciones
+                                                </p>
+                                            `;
                 }
             });
         </script>
 
         <!-- Unidad 2 -->
-        <div class="tarjeta-unidad tarjeta-inactiva">
+        <a href="@Url.Action("Index", "Unidad2")"
+           class="tarjeta-unidad tarjeta-activa">
 
             <div class="formula-unidad">
                 Ax = b
@@ -210,7 +211,7 @@
                 Sistemas de ecuaciones
             </p>
 
-        </div>
+        </a>
 
         <!-- Unidad 3 -->
         <div class="tarjeta-unidad tarjeta-inactiva">
