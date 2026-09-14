@@ -515,6 +515,8 @@
                                                    step="any"
                                                    class="campo-matriz"
                                                    name="Coeficientes"
+                                                   onfocus="borrarCeroAlEntrar(this)"
+                                                   onblur="ponerCeroSiEstaVacio(this)"
                                                    value="@coeficientes[posicion].ToString(System.Globalization.CultureInfo.InvariantCulture)" />
 
                                         </td>
@@ -532,6 +534,8 @@
                                                step="any"
                                                class="campo-matriz"
                                                name="TerminosIndependientes"
+                                               onfocus="borrarCeroAlEntrar(this)"
+                                               onblur="ponerCeroSiEstaVacio(this)"
                                                value="@terminos[fila].ToString(System.Globalization.CultureInfo.InvariantCulture)" />
 
                                     </td>
@@ -759,6 +763,22 @@
     }
 
 
+    function borrarCeroAlEntrar(input) {
+
+        if (input.value === "0") {
+            input.value = "";
+        }
+    }
+
+
+    function ponerCeroSiEstaVacio(input) {
+
+        if (input.value.trim() === "") {
+            input.value = "0";
+        }
+    }
+
+
     function generarMatriz() {
 
         var dimension =
@@ -859,6 +879,16 @@
                     "campo-matriz";
 
 
+                input.onfocus = function () {
+                    borrarCeroAlEntrar(this);
+                };
+
+
+                input.onblur = function () {
+                    ponerCeroSiEstaVacio(this);
+                };
+
+
                 td.appendChild(input);
 
                 tr.appendChild(td);
@@ -897,6 +927,16 @@
 
             inputTI.className =
                 "campo-matriz";
+
+
+            inputTI.onfocus = function () {
+                borrarCeroAlEntrar(this);
+            };
+
+
+            inputTI.onblur = function () {
+                ponerCeroSiEstaVacio(this);
+            };
 
 
             tdTI.appendChild(inputTI);

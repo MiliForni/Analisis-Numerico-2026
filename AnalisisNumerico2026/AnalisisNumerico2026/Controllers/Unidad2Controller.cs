@@ -20,6 +20,7 @@ namespace AnalisisNumerico2026.Controllers
             return View(model);
         }
 
+
         // POST
         [HttpPost]
         public ActionResult Index(Unidad2ViewModel model)
@@ -29,6 +30,7 @@ namespace AnalisisNumerico2026.Controllers
                 return View(model);
             }
 
+
             if (!model.Dimension.HasValue)
             {
                 model.MensajeError =
@@ -37,11 +39,13 @@ namespace AnalisisNumerico2026.Controllers
                 return View(model);
             }
 
-            int n = model.Dimension.Value;
+
+            int dimension = model.Dimension.Value;
+
 
             // Controlamos los coeficientes
             if (model.Coeficientes == null ||
-                model.Coeficientes.Length != n * n)
+                model.Coeficientes.Length != dimension * dimension)
             {
                 model.MensajeError =
                     "Debe completar todos los coeficientes de la matriz.";
@@ -49,9 +53,10 @@ namespace AnalisisNumerico2026.Controllers
                 return View(model);
             }
 
+
             // Controlamos los términos independientes
             if (model.TerminosIndependientes == null ||
-                model.TerminosIndependientes.Length != n)
+                model.TerminosIndependientes.Length != dimension)
             {
                 model.MensajeError =
                     "Debe completar todos los términos independientes.";
@@ -59,11 +64,13 @@ namespace AnalisisNumerico2026.Controllers
                 return View(model);
             }
 
+
             // GAUSS-JORDAN
             if (model.Metodo == "Gauss-Jordan")
             {
                 ResolverGaussJordan(model);
             }
+
 
             // GAUSS-SEIDEL
             else if (model.Metodo == "Gauss-Seidel")
@@ -77,6 +84,7 @@ namespace AnalisisNumerico2026.Controllers
                     return View(model);
                 }
 
+
                 if (!model.Tolerancia.HasValue ||
                     model.Tolerancia.Value <= 0)
                 {
@@ -86,8 +94,10 @@ namespace AnalisisNumerico2026.Controllers
                     return View(model);
                 }
 
+
                 ResolverGaussSeidel(model);
             }
+
 
             else
             {
@@ -95,22 +105,31 @@ namespace AnalisisNumerico2026.Controllers
                     "Debe seleccionar un método.";
             }
 
+
             return View(model);
         }
 
+
         private void ResolverGaussJordan(Unidad2ViewModel model)
         {
-            int n = model.Dimension.Value;
+            int dimension = model.Dimension.Value;
 
             // Matriz aumentada
-            double[,] matriz = new double[n, n + 1];
+            double[,] matriz =
+                new double[dimension, dimension + 1];
+
 
             int posicion = 0;
 
+
             // Cargamos la matriz
-            for (int fila = 0; fila < n; fila++)
+            for (int fila = 0;
+                 fila < dimension;
+                 fila++)
             {
-                for (int columna = 0; columna < n; columna++)
+                for (int columna = 0;
+                     columna < dimension;
+                     columna++)
                 {
                     matriz[fila, columna] =
                         model.Coeficientes[posicion];
@@ -118,33 +137,86 @@ namespace AnalisisNumerico2026.Controllers
                     posicion++;
                 }
 
-                matriz[fila, n] =
+
+                matriz[fila, dimension] =
                     model.TerminosIndependientes[fila];
             }
 
-            // Gauss-Jordan
+
+            // GAUSS-JORDAN
             for (int filaDiagonal = 0;
-                 filaDiagonal < n;
+                 filaDiagonal < dimension;
                  filaDiagonal++)
             {
-                double coeficienteDiagonal =
-                    matriz[filaDiagonal, filaDiagonal];
+                // PIVOTEO PARCIAL
+                int filaMayor = filaDiagonal;
 
-                // No podemos dividir por cero
-                if (Math.Abs(coeficienteDiagonal) < 0.0000000001)
+                double mayorValor =
+                    Math.Abs(
+                        matriz[filaDiagonal, filaDiagonal]
+                    );
+
+
+                for (int fila = filaDiagonal + 1;
+                     fila < dimension;
+                     fila++)
+                {
+                    double valorActual =
+                        Math.Abs(
+                            matriz[fila, filaDiagonal]
+                        );
+
+
+                    if (valorActual > mayorValor)
+                    {
+                        mayorValor = valorActual;
+
+                        filaMayor = fila;
+                    }
+                }
+
+
+                // Si toda la columna tiene cero
+                if (mayorValor < 0.0000000001)
                 {
                     model.MensajeError =
-                        "No se puede continuar porque se encontró un pivote igual a cero.";
+                        "No se puede continuar porque el sistema tiene un pivote igual a cero.";
 
                     model.Converge = false;
+
                     model.Solucion = null;
 
                     return;
                 }
 
-                // Dividimos toda la fila por el pivote
+
+                // Cambiamos las filas
+                if (filaMayor != filaDiagonal)
+                {
+                    for (int columna = 0;
+                         columna <= dimension;
+                         columna++)
+                    {
+                        double auxiliar =
+                            matriz[filaDiagonal, columna];
+
+                        matriz[filaDiagonal, columna] =
+                            matriz[filaMayor, columna];
+
+                        matriz[filaMayor, columna] =
+                            auxiliar;
+                    }
+                }
+
+
+                // Obtenemos el pivote
+                double coeficienteDiagonal =
+                    matriz[filaDiagonal, filaDiagonal];
+
+
+                // Normalizamos la fila
                 for (int columna = 0;
-                     columna <= n;
+                     columna <= dimension;
                      columna++)
                 {
                     matriz[filaDiagonal, columna] =
@@ -152,9 +224,11 @@ namespace AnalisisNumerico2026.Controllers
                         / coeficienteDiagonal;
                 }
 
-                // Hacemos cero el resto de la columna
+
+                // Hacemos cero todos los demás
+                // elementos de la columna
                 for (int fila = 0;
-                     fila < n;
+                     fila < dimension;
                      fila++)
                 {
                     if (fila == filaDiagonal)
@@ -162,54 +236,71 @@ namespace AnalisisNumerico2026.Controllers
                         continue;
                     }
 
+
                     double coeficienteCero =
                         matriz[fila, filaDiagonal];
 
+
                     for (int columna = 0;
-                         columna <= n;
+                         columna <= dimension;
                          columna++)
                     {
                         matriz[fila, columna] =
                             matriz[fila, columna]
-                            - coeficienteCero
-                            * matriz[filaDiagonal, columna];
+                            -
+                            coeficienteCero
+                            *
+                            matriz[filaDiagonal, columna];
                     }
                 }
             }
 
+
             // Guardamos la solución
-            model.Solucion = new double[n];
+            model.Solucion =
+                new double[dimension];
+
 
             for (int fila = 0;
-                 fila < n;
+                 fila < dimension;
                  fila++)
             {
                 model.Solucion[fila] =
-                    matriz[fila, n];
+                    matriz[fila, dimension];
             }
 
+
             model.Converge = true;
+
             model.IteracionesRealizadas = null;
+
             model.Error = null;
+
             model.MensajeError = null;
         }
 
 
-        private void ResolverGaussSeidel(Unidad2ViewModel model)
+        private void ResolverGaussSeidel(
+            Unidad2ViewModel model)
         {
-            int n = model.Dimension.Value;
+            int dimension =
+                model.Dimension.Value;
 
-            double[,] matriz = new double[n, n];
+
+            double[,] matriz =
+                new double[dimension, dimension];
+
 
             int posicion = 0;
 
-            // Pasamos los coeficientes al arreglo bidimensional
+
+            // Cargamos la matriz
             for (int fila = 0;
-                 fila < n;
+                 fila < dimension;
                  fila++)
             {
                 for (int columna = 0;
-                     columna < n;
+                     columna < dimension;
                      columna++)
                 {
                     matriz[fila, columna] =
@@ -219,45 +310,57 @@ namespace AnalisisNumerico2026.Controllers
                 }
             }
 
-            // Controlamos que ningún elemento
-            // de la diagonal principal sea cero
+
+            // La diagonal principal no puede tener ceros
             for (int fila = 0;
-                 fila < n;
+                 fila < dimension;
                  fila++)
             {
-                if (Math.Abs(matriz[fila, fila]) <
-                    0.0000000001)
+                if (Math.Abs(
+                        matriz[fila, fila]
+                    ) < 0.0000000001)
                 {
                     model.MensajeError =
                         "Gauss-Seidel no puede continuar porque hay un valor igual a cero en la diagonal principal.";
 
                     model.Converge = false;
+
                     model.Solucion = null;
+
                     model.Error = null;
+
                     model.IteracionesRealizadas = 0;
 
                     return;
                 }
             }
 
+
             int iteracionesMaximas =
                 model.Iteraciones.Value;
+
 
             double tolerancia =
                 model.Tolerancia.Value;
 
-            // Solución inicial: todos los valores en cero
+
+            // Solución inicial
+            // El apunte utiliza valores iniciales en cero
             double[] vectorResultado =
-                new double[n];
+                new double[dimension];
+
 
             double[] vectorAnterior =
-                new double[n];
+                new double[dimension];
+
 
             bool esSolucion = false;
 
-            double errorMaximo = 0;
 
             int contador = 0;
+
+
+            double errorMaximo = 0;
 
 
             while (contador < iteracionesMaximas &&
@@ -265,8 +368,11 @@ namespace AnalisisNumerico2026.Controllers
             {
                 contador++;
 
-                // Guardamos la iteración anterior
-                for (int i = 0; i < n; i++)
+
+                // Guardamos la solución anterior
+                for (int i = 0;
+                     i < dimension;
+                     i++)
                 {
                     vectorAnterior[i] =
                         vectorResultado[i];
@@ -275,66 +381,80 @@ namespace AnalisisNumerico2026.Controllers
 
                 // Calculamos cada incógnita
                 for (int fila = 0;
-                     fila < n;
+                     fila < dimension;
                      fila++)
                 {
                     double resultado =
                         model.TerminosIndependientes[fila];
+
 
                     double coeficienteIncognita =
                         matriz[fila, fila];
 
 
                     for (int columna = 0;
-                         columna < n;
+                         columna < dimension;
                          columna++)
                     {
                         if (fila != columna)
                         {
+                            // Gauss-Seidel utiliza los
+                            // valores encontrados en
+                            // la misma iteración
                             resultado =
                                 resultado
-                                - matriz[fila, columna]
-                                * vectorResultado[columna];
+                                -
+                                matriz[fila, columna]
+                                *
+                                vectorResultado[columna];
                         }
                     }
 
 
                     vectorResultado[fila] =
                         resultado
-                        / coeficienteIncognita;
+                        /
+                        coeficienteIncognita;
                 }
 
 
-                // Comparamos con la iteración anterior
-                int contadorDentroTolerancia = 0;
+                // Comparamos dos iteraciones sucesivas
+                int variablesDentroTolerancia = 0;
+
 
                 errorMaximo = 0;
 
 
                 for (int i = 0;
-                     i < n;
+                     i < dimension;
                      i++)
                 {
                     double errorRelativo;
 
 
-                    // Evitamos dividir por cero
-                    if (Math.Abs(vectorResultado[i]) <
-                        0.0000000001)
+                    if (Math.Abs(
+                            vectorResultado[i]
+                        ) < 0.0000000001)
                     {
+                        // Evitamos dividir por cero
                         errorRelativo =
                             Math.Abs(
                                 vectorResultado[i]
-                                - vectorAnterior[i]
+                                -
+                                vectorAnterior[i]
                             );
                     }
                     else
                     {
                         errorRelativo =
                             Math.Abs(
-                                (vectorResultado[i]
-                                - vectorAnterior[i])
-                                / vectorResultado[i]
+                                (
+                                    vectorResultado[i]
+                                    -
+                                    vectorAnterior[i]
+                                )
+                                /
+                                vectorResultado[i]
                             );
                     }
 
@@ -348,14 +468,15 @@ namespace AnalisisNumerico2026.Controllers
 
                     if (errorRelativo < tolerancia)
                     {
-                        contadorDentroTolerancia++;
+                        variablesDentroTolerancia++;
                     }
                 }
 
 
-                // Todas las variables deben cumplir
-                // con la tolerancia
-                if (contadorDentroTolerancia == n)
+                // TODAS las incógnitas
+                // deben cumplir la tolerancia
+                if (variablesDentroTolerancia ==
+                    dimension)
                 {
                     esSolucion = true;
                 }
@@ -365,6 +486,7 @@ namespace AnalisisNumerico2026.Controllers
             model.IteracionesRealizadas =
                 contador;
 
+
             model.Error =
                 errorMaximo;
 
@@ -372,15 +494,17 @@ namespace AnalisisNumerico2026.Controllers
             if (esSolucion)
             {
                 model.Solucion =
-                    new double[n];
+                    new double[dimension];
+
 
                 for (int i = 0;
-                     i < n;
+                     i < dimension;
                      i++)
                 {
                     model.Solucion[i] =
                         vectorResultado[i];
                 }
+
 
                 model.Converge = true;
 
